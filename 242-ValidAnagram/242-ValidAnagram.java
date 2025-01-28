@@ -4,7 +4,6 @@ class Solution {
         HashMap<Character,Integer> map2 = new HashMap<>();
 
         if(s.length()!=t.length()){
-            System.out.println("returning 1");
             return false;
         }
 
@@ -14,13 +13,11 @@ class Solution {
         }
 
         if(map1.size()!=map2.size()){
-            System.out.println("returning 2");
             return false;
         }
 
         for(Character ch : map1.keySet()){
             if(!map1.get(ch).equals(map2.get(ch))){
-                System.out.println("returning 3 :" + ch + " " + map1.get(ch) + " " + map2.get(ch));
                 return false;
             }
         }
