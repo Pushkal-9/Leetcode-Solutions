@@ -14,7 +14,6 @@ class Solution {
                         if(board[i+k][j+l]!='.'){
                         if(set.contains(board[i+k][j+l])){
 
-                            System.out.println("returning 1");
                             return false;
                         }
                         set.add(board[i+k][j+l]);
@@ -37,7 +36,6 @@ class Solution {
             for(int j=0;j<9;j++){
                 if(board[i][j]!='.'){
                     if(set.contains(board[i][j])){
-                        System.out.println("returning 2");
                         return false;
                     }
                     set.add(board[i][j]);
@@ -56,7 +54,6 @@ class Solution {
             for(int j=0;j<9;j++){
                 if(board[j][i]!='.'){
                     if(set.contains(board[j][i])){
-                        System.out.println("returning 3");
                         return false;
                     }
                     set.add(board[j][i]);
