@@ -9,11 +9,11 @@ class Solution {
             int current = (end-start)* Math.min(height[start],height[end]);
             max=Math.max(max,current);
 
-            if(height[start]>height[end]){
-                end--;
+            if(height[start]<height[end]){
+                start++;
             }
             else{
-                start++;
+                end--;
             }
         }
 
