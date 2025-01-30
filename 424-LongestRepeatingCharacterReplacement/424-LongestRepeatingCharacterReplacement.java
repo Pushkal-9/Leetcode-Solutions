@@ -1,30 +1,26 @@
 class Solution {
     public int characterReplacement(String s, int k) {
-        
-        int max=0;
+        int max = 0; 
+        int n = s.length();
 
-        for(int i=0;i<26;i++){
-            int count = k;
-            int start=0;
-            int end=0;
-            while(end<s.length()){
-                //System.out.println(s.charAt(end)-'A');
-                if((s.charAt(end)-'A')!=i){
-                    if(count==0){
-                        if((s.charAt(start)-'A')!=i){
-                            count++;
-                        }
-                        start++;
-                    }
-                    else{
-                        count--;
-                        end++;
-                    }
+        for (int i = 0; i < 26; i++) {
+            char ch = (char) ('A' + i);
+            int start = 0, end = 0, cur = 0;
+
+            while (end < n) {
+                if (s.charAt(end) != ch) {
+                    cur++;
                 }
-                else{
-                    end++;
+                end++;
+
+                while (cur > k) { 
+                    if (s.charAt(start) != ch) {
+                        cur--;
+                    }
+                    start++;
                 }
-                max=Math.max(end-start,max);
+
+                max = Math.max(max, end - start);
             }
         }
 
