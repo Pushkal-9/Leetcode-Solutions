@@ -3,7 +3,6 @@ class Solution {
         int start = 0, end = matrix[0].length-1;
 
         int row = searchRow(matrix,target);
-        System.out.println(row);
 
         while(start<=end){
             int mid = start +(end-start)/2;
