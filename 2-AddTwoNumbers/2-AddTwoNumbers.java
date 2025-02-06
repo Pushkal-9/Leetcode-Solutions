@@ -10,44 +10,46 @@
  */
 class Solution {
     public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
-        int sum = 0;
         int carry = 0;
 
-        ListNode node = new ListNode(-1);
-        ListNode head = node;
-
+        ListNode dummy = new ListNode(-1);
+        ListNode current = dummy;
         while(l1!=null && l2!=null){
-            sum = (l1.val + l2.val + carry) % 10;
-            carry = (l1.val +l2.val + carry)/10;
-
-            node.next = new ListNode(sum);
-            node=node.next;
+            int sum = carry + l1.val+l2.val;
+            carry = sum/10;
+            sum = sum%10;
+            ListNode node = new ListNode(sum);
+            current.next = node;
+            current = current.next;
             l1=l1.next;
             l2=l2.next;
+        }
+
+        if(l2!=null){
+            l1=l2;
         }
 
         while(l1!=null){
-            sum = (l1.val + carry) % 10;
-            carry = (l1.val + carry)/10;
+            if(carry==0){
+                current.next=l1;
+                return dummy.next;
+            }
+            int sum =carry + l1.val;
+            carry=sum/10;
+            sum=sum%10;
+            ListNode node = new ListNode(sum);
+            current.next = node;
+            current = current.next;
+            l1=l1.next;   
 
-            node.next = new ListNode(sum);
-            node=node.next;
-            l1=l1.next;
-        }
-
-        while(l2!=null){
-            sum = (l2.val + carry) % 10;
-            carry = (l2.val + carry)/10;
-
-            node.next = new ListNode(sum);
-            node=node.next;
-            l2=l2.next;
         }
 
         if(carry!=0){
-            node.next = new ListNode(carry);
+            ListNode node = new ListNode(carry);
+            current.next = node;
+            current = current.next;
         }
 
-        return head.next;
+        return dummy.next;
     }
 }
