@@ -14,7 +14,13 @@ class Solution {
             return res;
         }
 
-        res = subsets(nums,res,current,index+1);
+        int newIndex = index;
+
+        while(newIndex<nums.length-1 && nums[newIndex]==nums[newIndex+1]){
+            newIndex++;
+        }
+        newIndex++;
+        res = subsets(nums,res,current,newIndex);
         List<Integer> path2 = new ArrayList<>(current);
         path2.add(nums[index]);
         res = subsets(nums,res,path2,index+1);
