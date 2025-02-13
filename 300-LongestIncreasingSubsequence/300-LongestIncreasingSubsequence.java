@@ -10,9 +10,9 @@ class Solution {
             for(int j=0;j<i;j++){
                 if(nums[i]>nums[j]){
                     dp[i]=Math.max(1+dp[j],dp[i]);
-                    max = Math.max(max,dp[i]);
                 }
             }
+            max = Math.max(max,dp[i]);
         }
 
         return max;
