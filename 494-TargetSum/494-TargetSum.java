@@ -13,11 +13,13 @@ class Solution {
         }
 
         if(dp[index][sum+1000]!=null){
-            return dp[index][sum];
+            return dp[index][sum+1000];
         }
 
         int left = helper(nums,target,index+1,sum+nums[index],dp);
         int right= helper(nums,target,index+1,sum-nums[index],dp);  
+
+        dp[index][sum+1000]=left+right;
 
         return left+right;
     }
