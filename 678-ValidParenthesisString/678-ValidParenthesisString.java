@@ -1,20 +1,22 @@
 class Solution {
     public boolean checkValidString(String s) {
-        Stack<Integer> stack = new Stack<>();
+        Stack<Integer> stack1 = new Stack<>();
         Stack<Integer> stack2 = new Stack<>();
+
         for(int i=0;i<s.length();i++){
             if(s.charAt(i)=='('){
-                stack.push(i);
+                stack1.push(i);
             }
             else if(s.charAt(i)==')'){
-                if(stack.isEmpty()){
+                if(stack1.isEmpty()){
                     if(stack2.isEmpty()){
                         return false;
                     }
+
                     stack2.pop();
                 }
                 else{
-                    stack.pop();
+                    stack1.pop();
                 }
             }
             else if(s.charAt(i)=='*'){
@@ -22,14 +24,12 @@ class Solution {
             }
         }
 
-        if(!stack.isEmpty() && stack.size()>stack2.size()){
-            System.out.println(stack.pop());
-            System.out.println(stack2.size());
+        if(!stack1.isEmpty() && stack1.size()>stack2.size()){
             return false;
         }
 
-        while(!stack.isEmpty()){
-            if(stack.pop()>stack2.pop()){
+        while(!stack1.isEmpty()){
+            if(stack1.pop()>stack2.pop()){
                 return false;
             }
         }
