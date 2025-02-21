@@ -1,45 +1,46 @@
+import java.util.*;
+
 class Solution {
     public int longestIncreasingPath(int[][] matrix) {
-        int[][] dp = new int[matrix.length][matrix[0].length];
+        int m = matrix.length, n = matrix[0].length;
+        int[][] dp = new int[m][n];  // DP table to store the length of longest increasing path
+        int[] rowDir = {0, 1, 0, -1}; // Directions for moving in 4 directions
+        int[] colDir = {1, 0, -1, 0};
 
-        int max = 0;
+        List<int[]> cells = new ArrayList<>();
 
-        for(int i=0;i<matrix.length;i++){
-            for(int j=0;j<matrix[0].length;j++){
-                max = Math.max(max,helper(matrix,i,j,dp));
+        // Step 1: Collect all cell positions and sort by value
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                cells.add(new int[]{i, j});
             }
         }
+        // Sort the cells based on their matrix values
+        cells.sort(Comparator.comparingInt(a -> matrix[a[0]][a[1]]));
 
-        return max+1;
-    }
+        int maxPath = 0;
 
-    public int helper(int[][] matrix, int i, int j, int[][] dp){
-        if(dp[i][j]!=0){
-            return dp[i][j];
-        }
-        if(i>=matrix.length || j>=matrix[0].length || i<0 || j<0){
-            return 0;
-        }
+        // Step 2: Process in increasing order of matrix values
+        for (int[] cell : cells) {
+            int i = cell[0], j = cell[1];
+            dp[i][j] = 1;  // Each cell itself is a valid path of length 1
 
-        int max = 0;
+            // Update based on the values of its 4 neighbors
+            for (int d = 0; d < 4; d++) {
+                int ni = i + rowDir[d], nj = j + colDir[d];
 
-        int[] row = {0,1,0,-1};
-        int[] col = {1,0,-1,0};
-
-        for(int k=0;k<4;k++){
-            if(isValid(matrix,i+row[k],j+col[k]) && matrix[i][j]<matrix[i+row[k]][j+col[k]]){
-                max = Math.max(max,1+helper(matrix,i+row[k],j+col[k],dp));
+                if (isValid(matrix, ni, nj) && matrix[i][j] > matrix[ni][nj]) {
+                    dp[i][j] = Math.max(dp[i][j], dp[ni][nj] + 1);
+                }
             }
+
+            maxPath = Math.max(maxPath, dp[i][j]);
         }
 
-        dp[i][j]= max;
-
-        return max;
+        return maxPath;
     }
 
-    public boolean isValid(int[][] matrix, int i, int j){
-        return i<matrix.length && j<matrix[0].length && i>=0 && j>=0;
+    private boolean isValid(int[][] matrix, int i, int j) {
+        return i >= 0 && j >= 0 && i < matrix.length && j < matrix[0].length;
     }
-
-
 }
