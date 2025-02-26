@@ -19,7 +19,6 @@ class Solution {
 
         while(!q.isEmpty()){
             Point p = q.remove();
-            System.out.println(q.size());
             if(p==null){
                 count++;
                 if(q.isEmpty()){
