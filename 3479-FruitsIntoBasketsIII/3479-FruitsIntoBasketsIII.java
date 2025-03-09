@@ -1,27 +1,31 @@
 class Solution {
     public int numOfUnplacedFruits(int[] fruits, int[] baskets) {
-        int unp = 0;
-        int max = 0;
+
         List<Integer> list = new ArrayList<>();
-        for(int j = 0 ; j < baskets.length ;j++){
-            list.add(baskets[j]);
-            max = Math.max(max, baskets[j]);
+
+        int n = fruits.length;
+
+        int max=0;
+
+        for(int i=0;i<n;i++){
+            list.add(baskets[i]);
+            max=Math.max(max,baskets[i]);
         }
-        for(int i = 0 ; i < fruits.length ; i++){
-            if(fruits[i] > max){
-                unp++;
+
+        int count=0;
+        for(int i=0;i<n;i++){
+            if(fruits[i]>max){
                 continue;
             }
-            boolean placed = false;
-            for(int j = 0 ; j < list.size() ; j++){
-                if(list.get(j) >= fruits[i]){
+            for(int j=0;j<list.size();j++){
+                if(fruits[i]<=list.get(j)){
                     list.remove(j);
-                    placed = true;
+                    count++;
                     break;
                 }
             }
-            if(!placed) unp++;
         }
-        return unp;
+
+        return n-count;
     }
 }
