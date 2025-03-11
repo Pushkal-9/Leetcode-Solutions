@@ -3,40 +3,23 @@ class Solution {
         Stack<Integer> stack = new Stack<>();
         int i=0;
 
-        while(i<asteroids.length){
-          if(stack.isEmpty()){
-            stack.push(asteroids[i]);
-            i++;
-            continue;
-          }  
+        for (int asteroid : asteroids) {
+            boolean destroyed = false;
 
-          if(asteroids[i]>0){
-            stack.push(asteroids[i]);
-            i++;
-            continue;
-          }
-          else{
-            if(stack.peek()<0){
-                stack.push(asteroids[i]);
-                i++;
-                continue;             
-            }
-            else if(stack.peek()==Math.abs(asteroids[i])){
-                stack.pop();
-                i++;
-                continue;
-            }
-            else if(stack.peek()>Math.abs(asteroids[i])){
-                i++;
-                continue;
-            }
-            else{
-                while(!stack.isEmpty() && stack.peek()>0 && stack.peek()<Math.abs(asteroids[i])){
+            while (!stack.isEmpty() && asteroid < 0 && stack.peek() > 0) {
+                if (stack.peek() < Math.abs(asteroid)) {
+                    stack.pop();
+                    continue;
+                } else if (stack.peek() == Math.abs(asteroid)) {
                     stack.pop();
                 }
-                continue;    
+                destroyed = true;
+                break;
             }
-          }
+
+            if (!destroyed) {
+                stack.push(asteroid);
+            }
         }
 
         int[] res = new int[stack.size()];
