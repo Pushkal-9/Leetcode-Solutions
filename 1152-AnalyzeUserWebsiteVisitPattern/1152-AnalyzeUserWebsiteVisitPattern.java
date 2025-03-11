@@ -13,46 +13,34 @@ class Solution {
 
         for(List<Pair> list : map.values()){
             Collections.sort(list, (a,b)-> (a.time-b.time));
-            String pattern = "";
             HashSet<String> set = new HashSet<>();
             for(int i=0;i<list.size()-2;i++){
-                pattern=list.get(i).site + "#";
                 for(int j=i+1;j<list.size()-1;j++){
-                    String pattern2 = pattern + list.get(j).site + "#";
                     for(int k=j+1;k<list.size();k++){
-                        String pattern3 = pattern2 + list.get(k).site;
-                        if(!set.contains(pattern3)){
-                            score.put(pattern3,score.getOrDefault(pattern3,0)+1);
-                            set.add(pattern3);
-                            //System.out.println(pattern3 + " " + score.get(pattern3));
+                        String pattern = list.get(i).site + "#" + list.get(j).site + "#" + list.get(k).site;
+                        if(!set.contains(pattern)){
+                            score.put(pattern,score.getOrDefault(pattern,0)+1);
+                            set.add(pattern);
                         }
                     }
                 }
             }
         }
 
-        List<Pair> pList = new ArrayList<>();
 
-        for(String str : score.keySet()){
-            pList.add(new Pair(str,score.get(str)));
-        }
+        String mostVisited = "";
+        int maxFreq = 0;
 
-        Collections.sort(pList, (a,b) -> {
-            if(a.time!=b.time){
-                return b.time-a.time;
+        for (Map.Entry<String, Integer> entry : score.entrySet()) {
+            String pattern = entry.getKey();
+            int freq = entry.getValue();
+
+            if (freq > maxFreq || (freq == maxFreq && pattern.compareTo(mostVisited) < 0)) {
+                mostVisited = pattern;
+                maxFreq = freq;
             }
-            return a.site.compareTo(b.site);
-        });
-
-        String[] res = pList.get(0).site.split("#");
-
-        List<String> resList = new ArrayList<>();
-
-        for(String site : res){
-            resList.add(site);
         }
-
-        return resList;
+        return Arrays.asList(mostVisited.split("#"));
     }
 }
 
