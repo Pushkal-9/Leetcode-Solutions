@@ -1,38 +1,16 @@
 class Solution {
     public int findPeakElement(int[] nums) {
-        int low = 0;
-        int high = nums.length-1;
+        int low = 0, high = nums.length - 1;
 
-        if(nums.length==1){
-            return 0;
-        }
+        while (low < high) {  // No need for low <= high since low == high is a valid peak
+            int mid = (low + high) / 2;
 
-        while(low<=high){
-            int mid = (high-low)/2 + low;
-            //System.out.println(mid + " " + low + " "+ high);
-            if(mid==0 && nums[mid]>nums[mid+1]){
-                return mid;
-            }
-            else if(mid==nums.length-1 && nums[mid]>nums[mid-1]){
-                return mid;
-            }
-            else if(mid==0){
-                low = mid+1;
-            }
-            else if (mid==nums.length-1){
-                high=mid-1;
-            }
-            else if(nums[mid]>nums[mid-1] && nums[mid]>nums[mid+1]){
-                return mid;
-            }
-            else if (nums[mid]<nums[mid-1] && nums[mid]>nums[mid+1]){
-                high=mid-1;
-            }
-            else{
-                low=mid+1;
+            if (nums[mid] > nums[mid + 1]) { 
+                high = mid;  // Move left since peak might be mid
+            } else {
+                low = mid + 1;  // Move right since peak must be on right side
             }
         }
-
-        return -1;
+        return low; // At the end, low == high, which is the peak index
     }
 }
