@@ -1,4 +1,4 @@
-// Last updated: 23/03/2025, 01:36:25
+// Last updated: 23/03/2025, 01:38:56
 class Solution {
     public long minOperations(int[][] queries) {
 
@@ -23,9 +23,8 @@ class Solution {
             if (currentLow <= currentHigh) {
                 sum += (currentHigh - currentLow + 1) * d;
             }
-            long nextLower = upper + 1;
-            upper = nextLower * 4 - 1;
-            lower = nextLower;
+            lower = upper + 1;
+            upper = lower * 4 - 1;
             d++;
         }
         return sum;
