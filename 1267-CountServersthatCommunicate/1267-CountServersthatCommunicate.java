@@ -1,4 +1,4 @@
-// Last updated: 28/03/2025, 22:10:27
+// Last updated: 28/03/2025, 22:24:06
 class Solution {
     public int countServers(int[][] grid) {
         boolean[][] vis = new boolean[grid.length][grid[0].length];
