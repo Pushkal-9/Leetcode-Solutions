@@ -1,70 +1,39 @@
-// Last updated: 04/04/2025, 19:25:29
-/**
- * Definition for a binary tree node.
- * public class TreeNode {
- *     int val;
- *     TreeNode left;
- *     TreeNode right;
- *     TreeNode() {}
- *     TreeNode(int val) { this.val = val; }
- *     TreeNode(int val, TreeNode left, TreeNode right) {
- *         this.val = val;
- *         this.left = left;
- *         this.right = right;
- *     }
- * }
- */
+// Last updated: 04/04/2025, 19:32:25
 class Solution {
-    private int max = 0;
     public int amountOfTime(TreeNode root, int start) {
-       HashMap<Integer,List<Integer>> map = new HashMap<>(); 
-       HashSet<Integer> set = new HashSet<>();
+        Map<Integer, List<Integer>> graph = new HashMap<>();
+        buildGraph(root, null, graph);
 
-       buildAdj(root,map);
+        Set<Integer> visited = new HashSet<>();
+        Queue<Integer> queue = new LinkedList<>();
+        queue.offer(start);
+        visited.add(start);
+        int time = -1;
 
-       dfs(start,map,set,0);
-
-       return max;
+        while (!queue.isEmpty()) {
+            int size = queue.size();
+            time++;
+            for (int i = 0; i < size; i++) {
+                int curr = queue.poll();
+                for (int neighbor : graph.getOrDefault(curr, new ArrayList<>())) {
+                    if (visited.add(neighbor)) {
+                        queue.offer(neighbor);
+                    }
+                }
+            }
+        }
+        return time;
     }
 
-    public void dfs(int root,HashMap<Integer,List<Integer>> map, HashSet<Integer> vis, int level){
-        vis.add(root);
-
-        max=Math.max(max,level);
-
-        for(int neighbor : map.get(root)){
-            if(!vis.contains(neighbor)){
-                dfs(neighbor, map, vis, level+1);
-            }
+    private void buildGraph(TreeNode node, TreeNode parent, Map<Integer, List<Integer>> graph) {
+        if (node == null) return;
+        graph.computeIfAbsent(node.val, k -> new ArrayList<>());
+        if (parent != null) {
+            graph.get(node.val).add(parent.val);
+            graph.computeIfAbsent(parent.val, k -> new ArrayList<>());
+            graph.get(parent.val).add(node.val);
         }
-    }
-
-    public void buildAdj(TreeNode root, HashMap<Integer,List<Integer>> map){
-        if(root==null){
-            return ;
-        }
-
-        if(!map.containsKey(root.val)){
-            map.put(root.val, new ArrayList<>());
-        }
-
-        if(root.left!=null){
-            map.get(root.val).add(root.left.val);
-            if(!map.containsKey(root.left.val)){
-                map.put(root.left.val, new ArrayList<>());
-            }
-            map.get(root.left.val).add(root.val);
-            buildAdj(root.left,map);
-        }
-
-        if(root.right!=null){
-            map.get(root.val).add(root.right.val);
-            if(!map.containsKey(root.right.val)){
-                map.put(root.right.val, new ArrayList<>());
-            }
-            map.get(root.right.val).add(root.val);
-            buildAdj(root.right,map);
-        }
-
+        buildGraph(node.left, node, graph);
+        buildGraph(node.right, node, graph);
     }
 }
