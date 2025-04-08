@@ -1,4 +1,4 @@
-# Last updated: 08/04/2025, 18:13:38
+# Last updated: 08/04/2025, 18:13:48
 class Solution:
     def lengthOfLongestSubstring(self, s: str) -> int:
         start=0
@@ -7,7 +7,7 @@ class Solution:
         hash_set = set()
         maxLength=0
 
-        while(start<=end and end<len(s)):
+        while(end<len(s)):
             if s[end] not in hash_set:
                 hash_set.add(s[end])
                 maxLength=max(maxLength,end-start+1)
