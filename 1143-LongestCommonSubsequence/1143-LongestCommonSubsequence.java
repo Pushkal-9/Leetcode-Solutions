@@ -1,3 +1,4 @@
+// Last updated: 12/04/2025, 16:22:46
 class Solution {
     public int longestCommonSubsequence(String text1, String text2) {
         int m = text1.length();
@@ -11,7 +12,7 @@ class Solution {
                     dp[i][j]= dp[i-1][j-1]+1;
                 }
                 else{
-                    dp[i][j]= Math.max(Math.max(dp[i-1][j],dp[i][j-1]),dp[i-1][j-1]);
+                    dp[i][j]= Math.max(dp[i-1][j],dp[i][j-1]);
                 }
 
             }
