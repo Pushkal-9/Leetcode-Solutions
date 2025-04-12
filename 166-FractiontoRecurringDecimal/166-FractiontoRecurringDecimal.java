@@ -1,4 +1,4 @@
-// Last updated: 11/04/2025, 23:41:16
+// Last updated: 11/04/2025, 23:41:45
 class Solution {
     public String fractionToDecimal(int num, int den) {
         if(num==0){
@@ -37,11 +37,13 @@ class Solution {
             remainder = remainder % denominator;
         }
 
-        if(remainder==0){
-            return sb.toString();
+        if (remainder != 0) {
+            int index = map.get(remainder);
+            sb.insert(index, "(");
+            sb.append(")");
         }
 
-        return sb.substring(0,map.get(remainder)) + "(" + sb.substring(map.get(remainder)) + ")";
+        return sb.toString();
 
         
     }
