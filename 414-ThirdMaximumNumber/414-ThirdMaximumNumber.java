@@ -1,4 +1,4 @@
-// Last updated: 13/04/2025, 15:56:57
+// Last updated: 13/04/2025, 15:57:34
 class Solution {
     public int thirdMax(int[] nums) {
 
@@ -21,17 +21,17 @@ class Solution {
             return Math.max(it.next(),it.next());
         }
 
-        for(int i : nums){
+        for(int i : set){
             if(i>first){
                 third = second;
                 second = first;
                 first=i;
             }
-            else if(i!=first && i>second){
+            else if(i>second){
                 third=second;
                 second=i;
             }
-            else if(i!=first && i!=second && i>third){
+            else if(i>third){
                 third=i;
             }
         }
