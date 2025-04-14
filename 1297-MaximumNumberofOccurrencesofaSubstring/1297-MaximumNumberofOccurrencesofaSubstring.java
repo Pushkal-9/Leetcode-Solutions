@@ -1,60 +1,38 @@
-// Last updated: 13/04/2025, 20:26:51
+// Last updated: 13/04/2025, 20:31:18
 class Solution {
     public int maxFreq(String s, int maxLetters, int minSize, int maxSize) {
-        int[] count = new int[26];
-
-        HashMap<String,Integer> map = new HashMap<>();
-
-
-        for(int size=minSize;size<=maxSize;size++){
-            count = new int[26];
-            int k = 0;
-            for(int i=0;i<size;i++){
-                char ch = s.charAt(i);
-                count[ch-'a']++;
-            }
-
-            for(int i=0;i<26;i++){
-                if(count[i]>0){
-                    k++;
-                }
-            }
-
-            if(k<=maxLetters){
-                map.put(s.substring(0,size),1);
-                //System.out.println(s.substring(0,size));
-            }
-
-            for(int i=0;i<s.length()-size;i++){
-                count[s.charAt(i)-'a']--;
-                count[s.charAt(i+size)-'a']++;
-
-                if(unique(count)<=maxLetters){
-                    String str = s.substring(i+1,i+size+1);
-                    //System.out.println(str);
-                    map.put(str,map.getOrDefault(str,0)+1);
-                }
-            }
-        }
-
-        int max = 0;
-
-        for(int i : map.values()){
-            max=Math.max(i,max);
-        }
-
-        return max;
-    }
-
-    public int unique(int[] count){
-        int u = 0;
+        Map<String, Integer> freqMap = new HashMap<>();
+        Map<Character, Integer> charCount = new HashMap<>();
         
-        for(int i : count){
-            if(i>0){
-                u++;
+        int left = 0;
+        int maxFreq = 0;
+
+        // Initialize the first window
+        for (int right = 0; right < s.length(); right++) {
+            char ch = s.charAt(right);
+            charCount.put(ch, charCount.getOrDefault(ch, 0) + 1);
+            
+            // Maintain the window size of minSize
+            if (right - left + 1 > minSize) {
+                char toRemove = s.charAt(left);
+                charCount.put(toRemove, charCount.get(toRemove) - 1);
+                if (charCount.get(toRemove) == 0) {
+                    charCount.remove(toRemove);
+                }
+                left++;
+            }
+
+            // When window size is exactly minSize
+            if (right - left + 1 == minSize) {
+                if (charCount.size() <= maxLetters) {
+                    String sub = s.substring(left, right + 1);
+                    int count = freqMap.getOrDefault(sub, 0) + 1;
+                    freqMap.put(sub, count);
+                    maxFreq = Math.max(maxFreq, count);
+                }
             }
         }
 
-        return u;
+        return maxFreq;
     }
 }
