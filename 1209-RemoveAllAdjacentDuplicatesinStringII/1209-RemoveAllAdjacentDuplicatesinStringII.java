@@ -1,4 +1,4 @@
-// Last updated: 14/04/2025, 16:33:17
+// Last updated: 14/04/2025, 16:37:21
 class Solution {
     public String removeDuplicates(String s, int k) {
         Stack<Pair> stack = new Stack<>();
@@ -9,15 +9,9 @@ class Solution {
             }
             else{
                 if(stack.peek().ch == s.charAt(i)){
-                    if(stack.peek().idx==k-1){
-                        int count = k-1;
-                        while(count>0){
-                            stack.pop();
-                            count--;
-                        }
-                    }
-                    else{
-                        stack.push(new Pair(s.charAt(i),stack.peek().idx+1));
+                    stack.peek().idx++;
+                    if(stack.peek().idx==k){
+                        stack.pop();
                     }
                 }
                 else{
@@ -26,13 +20,14 @@ class Solution {
             }
         }
 
-        String result = "";
-
-        while(!stack.isEmpty()){
-            result = String.valueOf(stack.pop().ch) + result;
+        StringBuilder sb = new StringBuilder();
+        for (Pair p : stack) {
+            for (int i = 0; i < p.idx; i++) {
+                sb.append(p.ch);
+            }
         }
 
-        return result;
+        return sb.toString();
 
     }
 }
