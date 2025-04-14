@@ -1,3 +1,4 @@
+// Last updated: 13/04/2025, 22:22:05
 /**
  * Definition for singly-linked list.
  * class ListNode {
@@ -15,7 +16,7 @@ public class Solution {
         ListNode fast = head;
 
         while(slow!=null && fast!=null && fast.next!=null){
-            slow=slow.next;
+            slow = slow.next;
             fast=fast.next.next;
 
             if(slow==fast){
