@@ -1,8 +1,9 @@
-// Last updated: 14/04/2025, 15:13:51
+// Last updated: 14/04/2025, 15:19:05
 class Solution {
     public int compress(char[] chars) {
         StringBuilder sb = new StringBuilder();
         int i=0;
+        int j=0;
         while(i<chars.length){
             int count = 0;
 
@@ -13,18 +14,17 @@ class Solution {
                 i++;
             }
 
-            sb.append(current);
-            if(count!=1)
-                sb.append(count);
+            chars[j]=current;
+            j++;
+            if(count!=1){
+                String str = String.valueOf(count);
+                for(char ch : str.toCharArray()){
+                    chars[j]=ch;
+                    j++;
+                }
+            }
         }
 
-        int len = sb.length();
-
-
-        for(i=0;i<len;i++){
-            chars[i]=sb.charAt(i);
-        }
-
-        return len;
+        return j;
     }
 }
