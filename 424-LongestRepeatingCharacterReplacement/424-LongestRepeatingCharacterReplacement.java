@@ -1,3 +1,4 @@
+// Last updated: 15/04/2025, 21:04:20
 class Solution {
     public int characterReplacement(String s, int k) {
         int max = 0; 
@@ -13,7 +14,7 @@ class Solution {
                 }
                 end++;
 
-                while (cur > k) { 
+                if (cur > k) { 
                     if (s.charAt(start) != ch) {
                         cur--;
                     }
