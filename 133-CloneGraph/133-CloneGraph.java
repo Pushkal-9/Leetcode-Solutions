@@ -1,3 +1,4 @@
+// Last updated: 15/04/2025, 19:15:59
 /*
 // Definition for a Node.
 class Node {
@@ -19,27 +20,34 @@ class Node {
 */
 
 class Solution {
+    HashMap<Node,Node> map;
     public Node cloneGraph(Node node) {
-        HashMap<Integer,Node> map = new HashMap<>();
+        map = new HashMap<>();
 
-        return dfs(node,map);
+        return cloneDfs(node,map);
+
     }
 
-    public Node dfs(Node node, HashMap<Integer,Node> map){
+    public Node cloneDfs(Node node, HashMap<Node,Node> map){
         if(node==null){
             return null;
         }
-        if(map.containsKey(node.val)){
-            return map.get(node.val);
+        if(map.containsKey(node)){
+            return map.get(node);
         }
 
-        Node clone = new Node(node.val);
-        map.put(node.val,clone);
+        Node cur = new Node(node.val);
+        map.put(node,cur);
 
-        for(Node nbrs : node.neighbors){
-            clone.neighbors.add(dfs(nbrs,map));
+        for(Node n : node.neighbors){
+            if(map.containsKey(n)){
+                cur.neighbors.add(map.get(n));
+            }
+            else{
+                cur.neighbors.add(cloneDfs(n,map));
+            }
         }
 
-        return clone;
+        return cur;
     }
 }
