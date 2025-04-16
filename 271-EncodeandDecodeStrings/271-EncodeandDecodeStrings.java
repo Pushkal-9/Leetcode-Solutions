@@ -1,3 +1,4 @@
+// Last updated: 15/04/2025, 20:18:55
 public class Codec {
 
     // Encodes a list of strings to a single string.
@@ -11,7 +12,6 @@ public class Codec {
         for(String str : strs){
             encoded.append(str).append(" # ");
         }
-        System.out.println(encoded.toString());
         return encoded.toString();
     }
 
