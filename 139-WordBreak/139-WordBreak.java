@@ -1,24 +1,37 @@
+// Last updated: 15/04/2025, 19:48:49
 class Solution {
+    HashSet<String> set;
+    Boolean[] mem;
     public boolean wordBreak(String s, List<String> wordDict) {
-        HashSet<String> set = new HashSet<>();
+        set = new HashSet<>();
+        mem = new Boolean[s.length()+1];
 
         for(String word : wordDict){
             set.add(word);
         }
 
-        boolean[] dp = new boolean[s.length()+1];
+        return isValid(s,0);
+    }
 
-        dp[0]=true;
+    public boolean isValid(String s, int start){
 
-        for(int i=1;i<dp.length;i++){
-            for(int j=0;j<i;j++){
-                if(dp[j] && set.contains(s.substring(j,i))){
-                    dp[i]=true;
-                    break;
-                }
+        if(start==s.length()){
+            return true;
+        }
+
+        if(mem[start]!=null){
+            return mem[start];
+        }
+
+        for(int i=start+1;i<=s.length();i++){
+            if(set.contains(s.substring(start,i)) && isValid(s,i)){
+                mem[i]=true;
+                return mem[i];
             }
         }
 
-        return dp[s.length()];
+        mem[start] =false;
+
+        return mem[start];
     }
 }
