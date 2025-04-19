@@ -1,30 +1,38 @@
-// Last updated: 19/04/2025, 01:19:16
+// Last updated: 19/04/2025, 18:05:32
 class Solution {
     public String smallestString(String s) {
-        char[] chars = s.toCharArray();
-        int i = 0;
+        int start = -1;
 
-        // Skip leading 'a's
-        while (i < chars.length && chars[i] == 'a') {
-            i++;
+        StringBuilder sb = new StringBuilder();
+
+        for(int i=0;i<s.length();i++){
+            if(s.charAt(i)!='a'){
+                start=i;
+                break;
+            }
+            sb.append(s.charAt(i));
         }
 
-        // If all are 'a', change last char to 'z'
-        if (i == chars.length) {
-            chars[chars.length - 1] = 'z';
-            return new String(chars);
+        if(start==-1){
+            return s.substring(0,s.length()-1) + "z";
         }
 
-        // Start decrementing until next 'a' or end
-        while (i < chars.length && chars[i] != 'a') {
-            chars[i] = getPreviousChar(chars[i]);
-            i++;
+        int end = -1;
+
+        for(int i=start;i<s.length();i++){
+
+            if(s.charAt(i)=='a'){
+                break;
+            }
+            
+            end = i;
+            sb.append(getPreviousChar(s.charAt(i)));
         }
 
-        return new String(chars);
+        return sb.append(s.substring(end+1,s.length())).toString();
     }
 
-    private char getPreviousChar(char ch) {
-        return ch == 'a' ? 'z' : (char) (ch - 1);
+    public char getPreviousChar(char ch){
+        return ch == 'a' ? 'z' : (char)(ch - 1);
     }
 }
