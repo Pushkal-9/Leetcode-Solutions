@@ -1,4 +1,4 @@
-// Last updated: 19/04/2025, 17:46:50
+// Last updated: 19/04/2025, 17:47:54
 class Solution {
     public int openLock(String[] deadends, String target) {
         HashSet<String> visited = new HashSet<>();
