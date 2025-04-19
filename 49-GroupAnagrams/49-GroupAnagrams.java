@@ -1,4 +1,4 @@
-// Last updated: 19/04/2025, 12:50:21
+// Last updated: 19/04/2025, 12:53:09
 class Solution {
     public List<List<String>> groupAnagrams(String[] strs) {
 
@@ -20,8 +20,19 @@ class Solution {
     public String sort(String str){
         char[] chars = str.toCharArray();
 
-        Arrays.sort(chars);
+        int[] arr = new int[26];
 
-        return String.valueOf(chars);
+        for(char ch : chars){
+            arr[ch-'a']++;
+        }
+
+        StringBuilder sb = new StringBuilder();
+
+        for(int i=0;i<26;i++){
+            sb.append((char)('a' + i));
+            sb.append(arr[i]);
+        }
+
+        return sb.toString();
     }
 }
