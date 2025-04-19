@@ -1,44 +1,36 @@
-// Last updated: 14/04/2025, 16:38:02
+// Last updated: 19/04/2025, 18:26:53
 class Solution {
     public String removeDuplicates(String s, int k) {
-        Stack<Pair> stack = new Stack<>();
+        Stack<Pair<Character,Integer>> stack = new Stack<>();
 
         for(int i=0;i<s.length();i++){
-            char c = s.charAt(i);
             if(stack.isEmpty()){
-                stack.push(new Pair(c,1));
+                stack.push(new Pair<>(s.charAt(i),1));
             }
             else{
-                if(stack.peek().ch == s.charAt(i)){
-                    stack.peek().idx++;
-                    if(stack.peek().idx==k){
-                        stack.pop();
-                    }
+                if(stack.peek().getKey()==s.charAt(i)){
+                    stack.push(new Pair<>(s.charAt(i),stack.peek().getValue()+1));
                 }
                 else{
-                    stack.push(new Pair(c,1));
+                    stack.push(new Pair<>(s.charAt(i),1));
+                }
+            }
+
+            if(!stack.isEmpty() && stack.peek().getValue()==k){
+                char ch = stack.peek().getKey();
+
+                while(!stack.isEmpty() && stack.peek().getKey()==ch){
+                    stack.pop();
                 }
             }
         }
 
         StringBuilder sb = new StringBuilder();
-        for (Pair p : stack) {
-            for (int i = 0; i < p.idx; i++) {
-                sb.append(p.ch);
-            }
+
+        for(Pair p : stack){
+            sb.append(p.getKey());
         }
 
         return sb.toString();
-
-    }
-}
-
-class Pair{
-    int idx;
-    char ch;
-
-    public Pair(char ch, int idx){
-        this.idx=idx;
-        this.ch=ch;
     }
 }
