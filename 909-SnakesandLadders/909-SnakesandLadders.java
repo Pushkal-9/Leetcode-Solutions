@@ -1,8 +1,8 @@
-// Last updated: 19/04/2025, 00:48:10
+// Last updated: 19/04/2025, 01:03:18
 class Solution {
     public int snakesAndLadders(int[][] board) {
-
         int n = board.length;
+
         Pair<Integer,Integer>[] cells = new Pair[n*n+1];
 
         int index = 1;
@@ -13,18 +13,18 @@ class Solution {
             columns[i]=i;
         }
 
-
         for(int row = n-1;row>=0;row--){
             for(int column : columns){
                 cells[index] = new Pair<>(row,column);
                 index++;
             }
+
             Collections.reverse(Arrays.asList(columns));
         }
 
         Queue<Integer> q = new LinkedList<>();
 
-        int[] dist = new int[n*n+1];
+        int[] dist = new int[n*n + 1];
 
         Arrays.fill(dist,-1);
 
@@ -35,16 +35,15 @@ class Solution {
         while(!q.isEmpty()){
             int cur = q.poll();
 
-            for(int step=cur+1;step<=Math.min(cur+6,n*n);step++){
-                int row = cells[step].getKey(), col = cells[step].getValue();
+            for(int next = cur+1; next<= Math.min(cur+6, n*n); next++){
+                int row = cells[next].getKey(), col = cells[next].getValue();
 
-                int dest = board[row][col] != -1 ? board[row][col] : step;
+                int dest = board[row][col] != -1 ? board[row][col] : next;
 
                 if(dist[dest]==-1){
                     dist[dest]=dist[cur]+1;
                     q.add(dest);
                 }
-
             }
         }
 
