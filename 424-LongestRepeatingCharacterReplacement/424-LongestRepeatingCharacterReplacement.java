@@ -1,27 +1,30 @@
-// Last updated: 15/04/2025, 21:04:20
+// Last updated: 19/04/2025, 15:43:05
 class Solution {
     public int characterReplacement(String s, int k) {
-        int max = 0; 
         int n = s.length();
 
-        for (int i = 0; i < 26; i++) {
-            char ch = (char) ('A' + i);
-            int start = 0, end = 0, cur = 0;
+        int max = 0;
 
-            while (end < n) {
-                if (s.charAt(end) != ch) {
-                    cur++;
+        for(int i=0;i<26;i++){
+            char ch = (char)('A' + i);
+            int end=0, start=0;
+            int count=0;
+
+            while(end<s.length()){
+                if(s.charAt(end)!=ch){
+                    count++;
                 }
-                end++;
 
-                if (cur > k) { 
-                    if (s.charAt(start) != ch) {
-                        cur--;
+                while(count>k){
+                    if(s.charAt(start)!=ch){
+                        count--;
                     }
                     start++;
                 }
 
-                max = Math.max(max, end - start);
+                max=Math.max(end-start+1,max);
+
+                end++;
             }
         }
 
