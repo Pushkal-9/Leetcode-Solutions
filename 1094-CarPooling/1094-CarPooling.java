@@ -1,4 +1,4 @@
-// Last updated: 18/04/2025, 16:29:41
+// Last updated: 19/04/2025, 18:07:48
 class Solution {
     public boolean carPooling(int[][] trips, int capacity) {
 
@@ -35,9 +35,13 @@ class Solution {
             }
 
             max = Math.max(current, max);
+
+            if(max>capacity){
+                return false;
+            }
         }
 
-        return max<=capacity;
+        return true;
     }
 }
 
