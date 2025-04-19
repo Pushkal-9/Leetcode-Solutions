@@ -1,65 +1,38 @@
+// Last updated: 19/04/2025, 13:55:48
 class Solution {
     public int[][] merge(int[][] intervals) {
-        List<Event> list = new ArrayList<>();
+        Arrays.sort(intervals, (a,b) -> a[0]-b[0]);
 
-        for(int[] interval : intervals){
-            list.add(new Event(interval[0], true));
-            list.add(new Event(interval[1], false));
-        }
+        List<int[]> result = new ArrayList<>();
 
-        Collections.sort(list, (a,b) -> {
-            if(a.value!=b.value){
-                return a.value-b.value;
-            }
+        int end = intervals[0][1];
+        int start = intervals[0][0];
 
-            return Boolean.compare(b.isStart,a.isStart);
-        });
-
-        int count = 0;
-        int start = 0;
-        int end = 0;
-
-        List<int[]> res = new ArrayList<>();
-
-        for(int i=0;i<list.size();i++){
-            Event event = list.get(i);
-
-            if(event.isStart){
-                if(count==0){
-                    start=event.value;
-                }
-                count++;
+        for(int i=1;i<intervals.length;i++){
+            if(end>=intervals[i][0]){
+                end = Math.max(end,intervals[i][1]);
             }
             else{
-                count--;
-                if(count==0){
-                    end = event.value;
-                    int[] e = {start,end};
-                    res.add(e);
-                }
+                int[] in = {start,end};
+
+                result.add(in);
+
+                start = intervals[i][0];
+                end = intervals[i][1];
             }
         }
+        
+        int[] in = {start,end};
 
-        return convert(res);
-    }
+        result.add(in);
 
-    public int[][] convert(List<int[]> res){
-        int[][] out = new int[res.size()][2];
+        int[][] res = new int[result.size()][2];
 
-        for(int i=0;i<res.size();i++){
-            out[i]=res.get(i);
+        for(int i=0;i<res.length;i++){
+            res[i]=result.get(i);
         }
 
-        return out;
-    }
-}
+        return res;
 
-class Event{
-    int value;
-    boolean isStart;
-
-    public Event(int value, boolean isStart){
-        this.value=value;
-        this.isStart=isStart;
     }
 }
