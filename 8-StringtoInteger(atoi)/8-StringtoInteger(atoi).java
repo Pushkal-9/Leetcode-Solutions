@@ -1,73 +1,28 @@
-// Last updated: 18/04/2025, 22:09:49
+// Last updated: 18/04/2025, 22:12:10
 class Solution {
     public int myAtoi(String s) {
-        
-        String trimmedString = s.stripLeading();
+        int i = 0, n = s.length();
+        while (i < n && s.charAt(i) == ' ') i++;
 
-        boolean isNegative = false;
+        if (i == n) return 0;
 
-        if(trimmedString.length()>0 && trimmedString.charAt(0)=='-'){
-            isNegative = true;
-            trimmedString = trimmedString.substring(1,trimmedString.length());
-        }
-        else if(trimmedString.length()>0 && trimmedString.charAt(0)=='+'){
-            trimmedString = trimmedString.substring(1,trimmedString.length());
+        int sign = 1;
+        if (s.charAt(i) == '-' || s.charAt(i) == '+') {
+            sign = (s.charAt(i) == '-') ? -1 : 1;
+            i++;
         }
 
-        String trimmedZeros = trimmedString.replaceFirst("^0+(?!$)", "");
+        long result = 0;
 
-        trimmedZeros = trimTillNonDigit(trimmedZeros);
+        while (i < n && Character.isDigit(s.charAt(i))) {
+            result = result * 10 + (s.charAt(i) - '0');
 
-        int result = 0;
+            if (sign == 1 && result > Integer.MAX_VALUE) return Integer.MAX_VALUE;
+            if (sign == -1 && -result < Integer.MIN_VALUE) return Integer.MIN_VALUE;
 
-        if(trimmedZeros.isEmpty()){
-            return result;
+            i++;
         }
 
-        String maxInt = String.valueOf(Integer.MAX_VALUE);
-
-        String minInt = String.valueOf(Integer.MIN_VALUE);
-
-        minInt = minInt.substring(1,minInt.length());
-
-        if(trimmedZeros.length()>maxInt.length()){
-            if(isNegative){
-                return Integer.MIN_VALUE;
-            }
-
-            return Integer.MAX_VALUE;
-        }
-
-        if(trimmedZeros.length()==maxInt.length()){
-            if(isNegative && trimmedZeros.compareTo(minInt)>0){
-                return Integer.MIN_VALUE;
-            }
-
-            if(!isNegative && trimmedZeros.compareTo(maxInt)>0){
-                return Integer.MAX_VALUE;
-            }
-        }
-
-        if(isNegative){
-            trimmedZeros = "-" + trimmedZeros; 
-        }
-
-        return Integer.parseInt(trimmedZeros);
-
-    }
-
-    public String trimTillNonDigit(String str){
-        StringBuilder sb = new StringBuilder();
-
-        for(Character ch : str.toCharArray()){
-            if(Character.isDigit(ch)){
-                sb.append(ch);
-            }
-            else{
-                break;
-            }
-        }
-
-        return sb.toString();
+        return (int)(sign * result);
     }
 }
