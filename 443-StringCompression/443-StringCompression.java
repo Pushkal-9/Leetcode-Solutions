@@ -1,37 +1,42 @@
-// Last updated: 14/04/2025, 15:20:59
+// Last updated: 19/04/2025, 12:14:43
 class Solution {
     public int compress(char[] chars) {
-        int i = 0, j = 0;
+        List<String> list = new ArrayList<>();
 
-        while (i < chars.length) {
-            char current = chars[i];
+        int pointer = 0;
+
+        int result = 0;
+
+        int i=0;
+
+        int index = 0;
+
+        while(i<chars.length){
+            
+            char ch = chars[i];
             int count = 0;
 
-            while (i < chars.length && chars[i] == current) {
+            while(i<chars.length && ch==chars[i]){
                 count++;
                 i++;
             }
 
-            chars[j++] = current;
+            chars[index] =  ch;
+            index++;
 
-            if (count > 1) {
-                int start = j;
-                while (count > 0) {
-                    chars[j++] = (char) ('0' + count % 10);
-                    count /= 10;
-                }
-                reverse(chars, start, j - 1);
+            if(count==1){
+                continue;
             }
+
+            String s = String.valueOf(count);
+
+            for(char c : s.toCharArray()){
+                chars[index] = c;
+                index++;
+            }
+            
         }
 
-        return j;
-    }
-
-    private void reverse(char[] chars, int left, int right) {
-        while (left < right) {
-            char temp = chars[left];
-            chars[left++] = chars[right];
-            chars[right--] = temp;
-        }
+        return index;
     }
 }
