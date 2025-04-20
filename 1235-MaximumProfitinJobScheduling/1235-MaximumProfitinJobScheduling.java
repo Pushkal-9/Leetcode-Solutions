@@ -1,4 +1,4 @@
-// Last updated: 16/04/2025, 00:49:38
+// Last updated: 20/04/2025, 16:53:29
 class Solution {
     public int jobScheduling(int[] startTime, int[] endTime, int[] profit) {
         int n = startTime.length;
