@@ -1,10 +1,10 @@
-// Last updated: 19/04/2025, 21:09:04
+// Last updated: 19/04/2025, 21:10:07
 class Solution {
     public int[] findOrder(int numCourses, int[][] prerequisites) {
         HashMap<Integer,List<Integer>> adj = constructAdj(numCourses, prerequisites);
 
         int[] indegrees = new int[numCourses];
-        boolean[] vis = new boolean[numCourses];
+        //boolean[] vis = new boolean[numCourses];
 
         for(int[] edge : prerequisites){
             indegrees[edge[0]]++;
@@ -17,7 +17,7 @@ class Solution {
         for(int i=0;i<numCourses;i++){
             if(indegrees[i]==0){
                 q.add(i);
-                vis[i]=true;
+                //vis[i]=true;
             }
         }
 
@@ -26,14 +26,14 @@ class Solution {
             res.add(node);
 
             for(int neighbor : adj.get(node)){
-                if(!vis[neighbor]){
+                //
                     indegrees[neighbor]--;
 
                     if(indegrees[neighbor]==0){
-                        vis[neighbor]=true;
+                        //vis[neighbor]=true;
                         q.add(neighbor);
                     }
-                }
+                //}
             }
         }
 
