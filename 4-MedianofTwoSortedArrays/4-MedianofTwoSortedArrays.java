@@ -1,38 +1,39 @@
-// Last updated: 21/04/2025, 01:01:42
+// Last updated: 21/04/2025, 01:03:11
 class Solution {
     public double findMedianSortedArrays(int[] nums1, int[] nums2) {
-        int first = nums1.length;
-        int second = nums2.length;
+        // Ensure nums1 is the smaller array
+        if (nums1.length > nums2.length) {
+            return findMedianSortedArrays(nums2, nums1);
+        }
 
-        int total = first + second;
+        int m = nums1.length;
+        int n = nums2.length;
+        int total = m + n;
+        int half = total / 2;
 
-        int half = total/2;
+        int left = 0, right = m;
 
-        int left = 0;
-        int right = nums1.length;
+        while (true) {
+            int mid1 = (left + right) / 2;
+            int mid2 = half - mid1;
 
-        while(true){
-            int mid = (left+right)/2;
-            int rem = half - mid;
+            int left1 = (mid1 == 0) ? Integer.MIN_VALUE : nums1[mid1 - 1];
+            int right1 = (mid1 == m) ? Integer.MAX_VALUE : nums1[mid1];
 
-            int firstLeft = mid>0 ? nums1[mid-1] : Integer.MIN_VALUE;
-            int secondLeft = rem>0 ? nums2[rem-1] : Integer.MIN_VALUE;
-            int secondRight = rem<second ? nums2[rem] : Integer.MAX_VALUE;
-            int firstRight = mid<first ? nums1[mid] : Integer.MAX_VALUE;
+            int left2 = (mid2 == 0) ? Integer.MIN_VALUE : nums2[mid2 - 1];
+            int right2 = (mid2 == n) ? Integer.MAX_VALUE : nums2[mid2];
 
-            if(firstLeft<=secondRight && secondLeft<=firstRight){
-                if(total%2==0){
-                    return (double)(Math.max(firstLeft,secondLeft) + Math.min(secondRight,firstRight))/(double)2;
+            if (left1 <= right2 && left2 <= right1) {
+                if (total % 2 == 0) {
+                    return (Math.max(left1, left2) + Math.min(right1, right2)) / 2.0;
+                } else {
+                    return Math.min(right1, right2);
                 }
-                return (double)Math.min(firstRight,secondRight);
+            } else if (left1 > right2) {
+                right = mid1 - 1;
+            } else {
+                left = mid1 + 1;
             }
-            else if(firstLeft>secondRight){
-                right = right-1;
-            }
-            else{
-                left = left+1;
-            }
-
         }
     }
 }
