@@ -1,11 +1,10 @@
-// Last updated: 20/04/2025, 23:04:42
+// Last updated: 20/04/2025, 23:04:51
 class Solution {
 public int maxProfit(int k, int[] prices) {
     int n = prices.length;
     if (n == 0 || k == 0) return 0;
 
     if (k >= n / 2) {
-        // Greedy: can do unlimited transactions
         int profit = 0;
         for (int i = 1; i < n; i++) {
             if (prices[i] > prices[i-1]) profit += prices[i] - prices[i-1];
