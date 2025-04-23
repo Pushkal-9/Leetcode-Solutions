@@ -1,4 +1,4 @@
-// Last updated: 22/04/2025, 19:12:12
+// Last updated: 22/04/2025, 19:18:43
 class Solution {
     public int calculate(String s) {
         List<String> list = new ArrayList<>();
