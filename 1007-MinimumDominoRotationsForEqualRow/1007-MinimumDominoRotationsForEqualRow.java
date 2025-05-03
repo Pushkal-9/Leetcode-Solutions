@@ -1,39 +1,33 @@
-// Last updated: 03/05/2025, 18:21:55
+// Last updated: 03/05/2025, 18:23:44
+
 class Solution {
+    private int helper(int[] tops, int[] bottoms, int val) {
+        int top_res = 0, bottom_res = 0;
+        for (int i = 0; i < tops.length; i++) {
+            if (tops[i] != val && bottoms[i] != val) {
+                return -1;
+            } else if (tops[i] != val) {
+                top_res++;
+            } else if (bottoms[i] != val) {
+                bottom_res++;
+            }
+        }
+        return Math.min(top_res, bottom_res);
+    }
+
+
+
     public int minDominoRotations(int[] tops, int[] bottoms) {
+        
+        
+        int ans = -1;
+        for (int i = 1; i < 7; i++) {
+            int cur_ans = helper(tops, bottoms, i);
 
-        int min = Integer.MAX_VALUE;
-        boolean pos = false;
-
-        for(int i=1;i<=6;i++){
-            int current = i;
-            int count = 0;
-            int topCount = 0;
-            int bottomCount = 0;
-            for(int j=0;j<tops.length;j++){
-                if(tops[j]==current || bottoms[j]==current){
-                    count++;
-                }
-
-                if(tops[j]==current){
-                    topCount++;
-                }
-                if(bottoms[j]==current){
-                    bottomCount++;
-                }
-            }
-
-            if(count == tops.length){
-                min = Math.min(min, Math.min(topCount, tops.length-topCount));
-                min = Math.min(min, Math.min(bottomCount, tops.length-bottomCount));
-                pos = true;
+            if (cur_ans != -1 && (ans == -1 || ans > cur_ans)) {
+                ans = cur_ans;
             }
         }
-
-        if(pos){
-            return min;
-        }
-
-        return -1;
+        return ans;
     }
 }
