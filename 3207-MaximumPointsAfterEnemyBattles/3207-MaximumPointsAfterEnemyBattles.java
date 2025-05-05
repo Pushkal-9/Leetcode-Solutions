@@ -1,17 +1,18 @@
-// Last updated: 05/05/2025, 19:54:29
+// Last updated: 05/05/2025, 19:56:27
 class Solution {
     public long maximumPoints(int[] enemyEnergies, int currentEnergy) {
         Arrays.sort(enemyEnergies);
 
-        int start = 0;
         int end = enemyEnergies.length-1;
+
+        int start = enemyEnergies[0];
 
         long count = 0;
 
-        while(start<=end){
-            if(enemyEnergies[start]<=currentEnergy){
-                count +=  currentEnergy/enemyEnergies[start];
-                currentEnergy = currentEnergy%enemyEnergies[start];
+        while(end>=0){
+            if(start<=currentEnergy){
+                count +=  currentEnergy/start;
+                currentEnergy = currentEnergy%start;
             }
             else if(count>0){
                 currentEnergy = currentEnergy + enemyEnergies[end];
