@@ -1,17 +1,14 @@
-// Last updated: 05/05/2025, 20:28:32
+// Last updated: 05/05/2025, 20:30:16
 class Solution {
-    public int maxA(int n) {
-        int[] dp = new int[n+1];
-
-
-        for(int i=1;i<=n;i++){
-            dp[i]=i;
-
-            for(int j=i-3;j>=1;j--){
-                dp[i]= Math.max(dp[i],dp[j]* (i-j-1));
+    public int maxA(int N) {
+        int[] dp = new int[N+1];
+        for (int i=1; i<=N; i++) {
+            if (i<=5) {
+                dp[i] = i;
+            } else {
+                dp[i] = Math.max(dp[i-1]+1, Math.max(dp[i-3]*2, Math.max(dp[i-4]*3, dp[i-5]*4)));
             }
         }
-
-        return dp[n];
+        return dp[N];
     }
 }
