@@ -1,28 +1,23 @@
-// Last updated: 13/05/2025, 20:05:26
+// Last updated: 13/05/2025, 20:08:36
 class Solution {
-    public String fractionToDecimal(int num, int den) {
-        if(num==0){
-            return "0";
-        }
-
+    public String fractionToDecimal(int numerator, int denominator) {
         StringBuilder sb = new StringBuilder();
 
-        long numerator = (long) num;
-        long denominator = (long) den;
+        long num = (long)numerator;
+        long den = (long)denominator;
 
-        if(numerator * denominator < 0){
+        if(num * den < 0){
             sb.append("-");
-
         }
+        
+        num = Math.abs(num);
+        den = Math.abs(den);
 
-        numerator = Math.abs(numerator);
-        denominator = Math.abs(denominator);
+        sb.append(num/den);
 
-        sb.append(numerator/denominator);
+        long rem = num % den;
 
-        long remainder = numerator%denominator;
-
-        if(remainder==0){
+        if(rem==0){
             return sb.toString();
         }
 
@@ -30,21 +25,21 @@ class Solution {
 
         HashMap<Long,Integer> map = new HashMap<>();
 
-        while(remainder!=0 && !map.containsKey(remainder)){
-            map.put(remainder,sb.length());
-            remainder = remainder * 10;
-            sb.append(remainder/denominator);
-            remainder = remainder % denominator;
+
+        while(rem!=0 && !map.containsKey(rem)){
+            map.put(rem,sb.length());
+            rem=rem*10;
+            sb.append(rem/den);
+            rem = (rem % den);
+
         }
 
-        if (remainder != 0) {
-            int index = map.get(remainder);
-            sb.insert(index, "(");
+        if(rem!=0)
+        {
+            sb.insert(map.get(rem),"(");
             sb.append(")");
         }
 
         return sb.toString();
-
-        
     }
 }
