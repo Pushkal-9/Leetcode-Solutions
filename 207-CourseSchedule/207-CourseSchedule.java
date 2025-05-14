@@ -1,7 +1,7 @@
-// Last updated: 14/05/2025, 15:46:26
+// Last updated: 14/05/2025, 15:51:56
 class Solution {
     HashMap<Integer, List<Integer>> adj;
-    public boolean canFinish(int numCourses, int[][] prerequisites) {
+    public int[] findOrder(int numCourses, int[][] prerequisites) {
         buildAdj(numCourses, prerequisites);
 
         int[] indegrees = new int[numCourses];
@@ -14,10 +14,16 @@ class Solution {
 
         boolean[] vis = new boolean[numCourses];
 
+        int[] res = new int[numCourses];
+
+        int index = 0;
+
         for(int i=0;i<indegrees.length;i++){
             if(indegrees[i]==0){
                 q.add(i);
                 vis[i]=true;
+                res[index]=i;
+                index++;
             }
         }
 
@@ -31,6 +37,8 @@ class Solution {
                     if(indegrees[cur]==0){
                         q.add(cur);
                         vis[cur]=true;
+                        res[index]=cur;
+                        index++;
                     }
                 }
             }
@@ -38,11 +46,11 @@ class Solution {
 
         for(boolean node : vis){
             if(!node){
-                return false;
+                return new int[0];
             }
         }
 
-        return true;
+        return res;
     }
 
     public void buildAdj(int n, int[][] pre){
@@ -57,4 +65,5 @@ class Solution {
             adj.get(pair[1]).add(pair[0]);
         }
     }
+
 }
