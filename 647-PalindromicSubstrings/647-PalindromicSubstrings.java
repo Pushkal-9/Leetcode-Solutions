@@ -1,25 +1,25 @@
-// Last updated: 19/04/2025, 15:24:17
+// Last updated: 15/05/2025, 18:17:51
 class Solution {
     public int countSubstrings(String s) {
-        int[][] dp = new int[s.length()][s.length()];
+        boolean[][] dp = new boolean[s.length()][s.length()];
 
         int count = s.length();
 
         for(int i=0;i<s.length();i++){
-            dp[i][i]=1;
+            dp[i][i]=true;
         }
 
         for(int i=1;i<s.length();i++){
             for(int j=0;j<s.length()-i;j++){
                 if(s.charAt(j)==s.charAt(j+i)){
                 if(i==1){
-                    dp[j][j+i]=2;
+                    dp[j][j+i]=true;
                 }
-                else if (dp[j+1][j+i-1]!=0){
-                    dp[j][j+i]=2 + dp[j+1][j+i-1];
+                else if (dp[j+1][j+i-1]){
+                    dp[j][j+i]=true;
                 }
 
-                if(dp[j][j+i]!=0){
+                if(dp[j][j+i]){
                     count++;
                 }
                 }
