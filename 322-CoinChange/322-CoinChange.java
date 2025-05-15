@@ -1,4 +1,4 @@
-// Last updated: 19/04/2025, 15:49:15
+// Last updated: 15/05/2025, 17:43:02
 class Solution {
     public int coinChange(int[] coins, int amount) {
         int[] dp = new int[amount+1];
@@ -7,14 +7,14 @@ class Solution {
 
         dp[0]=0;
 
-        for(int i=1;i<dp.length;i++){
-            for(int coin : coins){
-                if(i>=coin && dp[i-coin] != Integer.MAX_VALUE){
-                    dp[i]= Math.min(1+dp[i-coin],dp[i]);
+        for(int i=1;i<=amount;i++){
+            for(int j : coins){
+                if(i>=j && dp[i-j] != Integer.MAX_VALUE){
+                    dp[i] = Math.min(dp[i-j]+1,dp[i]);
                 }
             }
         }
 
-        return dp[amount]==Integer.MAX_VALUE ? -1 : dp[amount];
+        return dp[amount]==Integer.MAX_VALUE? -1 : dp[amount];
     }
 }
