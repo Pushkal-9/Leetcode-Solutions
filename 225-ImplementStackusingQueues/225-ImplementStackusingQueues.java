@@ -1,34 +1,29 @@
-// Last updated: 15/05/2025, 01:22:22
+// Last updated: 15/05/2025, 01:25:31
 class MyStack {
     private Queue<Integer> q;
+    Integer top;
     public MyStack() {
         this.q = new LinkedList<>();
     }
     
     public void push(int x) {
         this.q.add(x);
+        this.top = x;
     }
     
     public int pop() {
         int size = this.q.size();
         for(int i=0;i<size-1;i++){
-            this.q.add(this.q.poll());
+            this.top = this.q.poll();
+            this.q.add(top);
         }
 
         return this.q.poll();
     }
     
     public int top() {
-        int size = this.q.size();
 
-        for(int i=0;i<size-1;i++){
-            this.q.add(this.q.poll());
-        }
-
-        int top = this.q.poll();
-        this.q.add(top);
-
-        return top; 
+        return this.top; 
     }
     
     public boolean empty() {
