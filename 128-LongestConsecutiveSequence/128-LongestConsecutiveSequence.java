@@ -1,6 +1,8 @@
+// Last updated: 15/05/2025, 17:26:20
 class Solution {
     public int longestConsecutive(int[] nums) {
         HashSet<Integer> set = new HashSet<>();
+        HashSet<Integer> vis = new HashSet<>();
 
         int max=0;
 
@@ -12,16 +14,16 @@ class Solution {
 
             int current = nums[i];
 
-            if(!set.contains(current)){
+            if(vis.contains(current)){
                 continue;
             }
 
             int count= 1;
-            set.remove(current);
+            vis.add(current);
             while(set.contains(current+1)){
                 count++;
                 current++;
-                set.remove(current);
+                vis.add(current);
             }
 
             current = nums[i];
@@ -29,7 +31,7 @@ class Solution {
             while(set.contains(current-1)){
                 count++;
                 current--;
-                set.remove(current);
+                vis.add(current);
             }
 
             max=Math.max(max,count);
