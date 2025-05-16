@@ -1,22 +1,23 @@
-// Last updated: 14/04/2025, 15:46:05
+// Last updated: 15/05/2025, 19:56:06
 class Solution {
     public int subarraySum(int[] nums, int k) {
-        int res = 0;
-        int[] pre = new int[nums.length+1];
-        HashMap<Integer,Integer> map = new HashMap<>();
+        HashMap<Integer, Integer> map = new HashMap<>();
 
-        for(int i=1;i<=nums.length;i++){
-            pre[i]=pre[i-1]+nums[i-1];
-        }
+        int prefix = 0;
 
-        for(int i=0;i<pre.length;i++){
-            if(map.containsKey(pre[i]-k)){
-                res=res+map.get(pre[i]-k);
+        map.put(0,1);
+
+        int count = 0;
+
+        for(int i=0;i<nums.length;i++){
+            prefix = prefix + nums[i];
+            if(map.containsKey(prefix-k)){
+                count = count + map.get(prefix-k);
             }
-                
-            map.put(pre[i],map.getOrDefault(pre[i],0)+1);
+
+            map.put(prefix, map.getOrDefault(prefix,0)+1);
         }
 
-        return res;
+        return count;
     }
 }
