@@ -1,26 +1,29 @@
-// Last updated: 19/04/2025, 13:40:22
+// Last updated: 15/05/2025, 22:51:53
 class Solution {
     public boolean isRobotBounded(String instructions) {
-        int x = 0, y = 0;
+        int[] dx = {0, -1, 0, 1};
+        int[] dy = {1, 0, -1, 0};
 
-        int[] dx = {0,-1,0,1};
-        int[] dy = {1,0,-1,0};
+        int x = 0;
+        int y = 0;
 
-        int directionIndex = 0;
+        int index = 0;
 
-        for(char ch : instructions.toCharArray()){
-            if(ch=='G'){
-                x = x + dx[directionIndex];
-                y = y + dy[directionIndex];
+        for(int i=0; i<instructions.length(); i++){
+            char ch = instructions.charAt(i);
+
+            if(ch == 'G'){
+                x = x + dx[index];
+                y = y + dy[index];
             }
-            else if(ch=='L'){
-                directionIndex = (directionIndex + 1)%4;
+            else if(ch == 'L'){
+                index = (index + 1)%4;
             }
-            else if(ch=='R'){
-                directionIndex = (directionIndex + 3)%4;
+            else{
+                index = (index + 3)%4;
             }
         }
 
-        return (x==0 && y==0) || directionIndex!=0;
+        return (x==0 && y==0) || index!=0;
     }
 }
