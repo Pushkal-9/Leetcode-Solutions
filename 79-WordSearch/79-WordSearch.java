@@ -1,4 +1,4 @@
-// Last updated: 16/05/2025, 00:24:25
+// Last updated: 16/05/2025, 00:25:38
 class Solution {
     boolean[][] vis ;
     public boolean exist(char[][] board, String word) {
@@ -31,12 +31,14 @@ class Solution {
             vis[row][col]=true;
             for(int i=0;i<4;i++){
                 String newCurrent = current + String.valueOf(board[row][col]);
-                res = res || exist(board,word,row+r[i],col+c[i],newCurrent);
+                if(exist(board,word,row+r[i],col+c[i],newCurrent)){
+                    return true;
+                }
             }
             vis[row][col]=false;
         }
 
-        return res;
+        return false;
     }
 
     public boolean isSafe(char[][] board, int row, int col, String current, String word){
