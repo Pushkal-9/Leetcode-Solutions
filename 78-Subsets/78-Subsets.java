@@ -1,22 +1,23 @@
+// Last updated: 15/05/2025, 20:18:46
 class Solution {
+    List<List<Integer>> powerSet;
     public List<List<Integer>> subsets(int[] nums) {
-        List<List<Integer>> res = new ArrayList<>();
-        List<Integer> current = new ArrayList<>();
-        return subsets(nums,res,current,0);
+        powerSet = new ArrayList<>();
+
+        dfs(0,new ArrayList<>(),nums);
+
+        return powerSet;
     }
 
-    public List<List<Integer>> subsets(int[] nums, List<List<Integer>> res, List<Integer> current, int index){
+    public void dfs(int index, List<Integer> current, int[] nums){
         if(index>=nums.length){
-            res.add(current);
-            return res;
+            powerSet.add(new ArrayList<>(current));
+            return;
         }
-        List<Integer> path2 = new ArrayList<>(current);   
+        current.add(nums[index]);
+        dfs(index+1,current,nums);
+        current.remove(current.size()-1);
+        dfs(index+1,current,nums);
 
-        path2.add(nums[index]);
-        int newIndex = index;
-        res = subsets(nums,res,current,index+1);
-        res = subsets(nums,res,path2,newIndex+1);
-
-        return res;
     }
 }
