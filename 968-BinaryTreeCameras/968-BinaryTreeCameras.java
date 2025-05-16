@@ -1,4 +1,4 @@
-// Last updated: 20/04/2025, 17:43:41
+// Last updated: 16/05/2025, 12:38:28
 /**
  * Definition for a binary tree node.
  * public class TreeNode {
@@ -15,31 +15,29 @@
  * }
  */
 class Solution {
-
-    int cameras;
-    Set<TreeNode> covered;
+    int cameras = 0;
     public int minCameraCover(TreeNode root) {
-        cameras = 0;
+        HashSet<TreeNode> covered = new HashSet<>();
 
-        covered = new HashSet<>();
         covered.add(null);
-        dfs(root,null);
+        dfs(root,null,covered);
 
         return cameras;
+
     }
 
-    public void dfs(TreeNode node, TreeNode parent){
+    public void dfs(TreeNode node, TreeNode parent, HashSet<TreeNode> covered){
         if(node!=null){
-            dfs(node.left,node);
-            dfs(node.right,node);
+            dfs(node.left,node,covered);
+            dfs(node.right,node,covered);
 
             if((parent==null && !covered.contains(node)) || !covered.contains(node.left) || !covered.contains(node.right)){
                 cameras++;
 
                 covered.add(parent);
                 covered.add(node);
-                covered.add(node.right);
                 covered.add(node.left);
+                covered.add(node.right);
             }
         }
     }
