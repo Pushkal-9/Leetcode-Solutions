@@ -1,4 +1,4 @@
-// Last updated: 18/05/2025, 13:26:42
+// Last updated: 18/05/2025, 13:31:53
 class LRUCache {
     private final int capacity;
     private final Map<Integer, Integer> cache;
@@ -12,26 +12,26 @@ class LRUCache {
         };
     }
     
-    public int get(int key) {
+    public synchronized int get(int key) {
         if(this.containsKey(key))
             return cache.get(key);
         
         return -1;
     }
     
-    public void put(int key, int value) {
+    public synchronized void put(int key, int value) {
         cache.put(key, value);
     }
 
-    public boolean containsKey(int key) {
+    public synchronized boolean containsKey(int key) {
         return cache.containsKey(key);
     }
 
-    public void clear() {
+    public synchronized void clear() {
         cache.clear();
     }
 
-    public int size() {
+    public synchronized int size() {
         return cache.size();
     }
 }
