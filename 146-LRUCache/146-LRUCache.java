@@ -1,4 +1,4 @@
-// Last updated: 18/05/2025, 13:31:53
+// Last updated: 18/05/2025, 13:33:36
 class LRUCache {
     private final int capacity;
     private final Map<Integer, Integer> cache;
@@ -6,7 +6,7 @@ class LRUCache {
     public LRUCache(int capacity) {
         this.capacity = capacity;
         this.cache = new LinkedHashMap<Integer, Integer>(capacity, 0.75f, true) {
-            protected boolean removeEldestEntry(Map.Entry<Integer, Integer> eldest) {
+            public boolean removeEldestEntry(Map.Entry<Integer, Integer> eldest) {
                 return size() > LRUCache.this.capacity;
             }
         };
