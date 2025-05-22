@@ -1,9 +1,9 @@
-// Last updated: 22/05/2025, 14:25:12
+// Last updated: 22/05/2025, 14:25:51
 class MyHashMap {
     int SIZE;
     Node[] buckets;
     public MyHashMap() {
-        this.SIZE = 1000;
+        this.SIZE = 2069;
         this.buckets = new Node[SIZE];
     }
 
