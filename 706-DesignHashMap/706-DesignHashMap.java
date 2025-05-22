@@ -1,4 +1,4 @@
-// Last updated: 22/05/2025, 14:25:57
+// Last updated: 22/05/2025, 14:31:33
 class MyHashMap {
     int SIZE;
     Node[] buckets;
@@ -13,12 +13,7 @@ class MyHashMap {
     
     public void put(int key, int value) {
         int hashcode = hashcode(key);
-
-        if(buckets[hashcode]==null){
-            Node node = new Node(key,value);
-            buckets[hashcode] = node;
-            return;
-        }
+        Node head = new Node(key,value);
 
         Node node = buckets[hashcode];
 
@@ -31,8 +26,6 @@ class MyHashMap {
         }
 
         node = buckets[hashcode];
-
-        Node head = new Node(key,value);
 
         head.next = node;
 
@@ -74,10 +67,8 @@ class MyHashMap {
 
         while(node.next!=null){
             if(node.next.key == key){
-                if(node.next!=null){
-                    node.next = node.next.next;
-                    return;
-                }         
+                node.next = node.next.next;
+                return;     
             }
             node=node.next;
         }
@@ -92,7 +83,7 @@ class Node{
     public Node(int key,int val){
         this.key=key;
         this.val=val;
-        this.next = next;
+        this.next = null;
     }
 }
 
