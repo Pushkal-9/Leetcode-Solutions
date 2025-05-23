@@ -1,42 +1,45 @@
-// Last updated: 26/04/2025, 14:35:43
+// Last updated: 23/05/2025, 01:25:06
 class Solution {
     public int openLock(String[] deadends, String target) {
-        HashSet<String> dead = new HashSet<>();
+        HashSet<String> ends = new HashSet<>();
         HashSet<String> vis = new HashSet<>();
-        for(String deadend : deadends){
-            dead.add(deadend);
+
+        for(String end : deadends){
+            ends.add(end);
         }
 
-        if(dead.contains("0000")){
+        if(ends.contains("0000")){
             return -1;
         }
 
-        Queue<Pair<String,Integer>> q = new LinkedList<>();
+        Queue<Pair<String, Integer>> q = new LinkedList<>();
 
-        q.add(new Pair<>("0000",0));
+        q.add(new Pair("0000",0));
         vis.add("0000");
 
         int[] steps = {-1,1};
 
-
         while(!q.isEmpty()){
-            Pair<String, Integer> p = q.poll();
-
+            Pair<String,Integer> p = q.poll();
             String key = p.getKey();
-            int dist = p.getValue();
+            int val = p.getValue();
 
             if(key.equals(target)){
-                return dist;
+                return val;
             }
 
-            for(int i=0;i<4;i++){
-                for(int step : steps){
-                    String comb = nextCombination(key,i,step);
+            for(int i : steps){
+                
+                for(int j=0; j<4; j++){
+                    StringBuilder sb = new StringBuilder();
+                    sb.append(key.substring(0,j));
+                    sb.append(nextCharacter(key.charAt(j),i));
+                    sb.append(key.substring(j+1,4));
 
-                    if(!dead.contains(comb) && !vis.contains(comb)){
-                        Pair<String,Integer> pair = new Pair<>(comb, dist+1);
-                        q.add(pair);
-                        vis.add(comb);
+                    String newKey = sb.toString();
+                    if(!ends.contains(newKey) && !vis.contains(newKey)){
+                        q.add(new Pair(newKey,val+1));
+                        vis.add(newKey);
                     }
                 }
             }
@@ -45,27 +48,15 @@ class Solution {
         return -1;
     }
 
-    public String nextCombination(String comb, int pos, int step){
-        char ch = comb.charAt(pos);
-
-        char mod;
-
-        if(step==-1 && ch=='0'){
-            mod = '9';
-        }
-        else if(step==1 && ch=='9'){
-            mod = '0';
-        }
-        else{
-            mod = (char)(ch + step);
+    public char nextCharacter(char ch, int val){
+        if(ch=='9' && val == 1){
+            return '0';
         }
 
-        StringBuilder sb = new StringBuilder();
+        if(ch=='0' && val == -1){
+            return '9';
+        }
 
-        sb.append(comb.substring(0,pos));
-        sb.append(mod);
-        sb.append(comb.substring(pos+1,comb.length()));
-
-        return sb.toString();
+        return (char)(ch + val);
     }
 }
