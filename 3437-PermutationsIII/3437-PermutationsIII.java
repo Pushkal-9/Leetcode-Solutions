@@ -1,13 +1,14 @@
-// Last updated: 20/04/2025, 20:52:51
+// Last updated: 24/05/2025, 17:53:29
 class Solution {
     List<List<Integer>> result = new ArrayList<>();
-
     public int[][] permute(int n) {
-        List<Integer> even = getEvenNumbers(n);
-        List<Integer> odd = getOddNumbers(n);
+        List<Integer> odd = new ArrayList<>();
+        List<Integer> even = new ArrayList<>();
 
-        backtrack(new ArrayList<>(), even, odd, true, n);  
-        backtrack(new ArrayList<>(), even, odd, false, n); 
+        helper(n,odd,even);
+        
+        perm(n,true,odd,even,new ArrayList<>());
+        perm(n,false,odd,even,new ArrayList<>());
 
         result.sort((a, b) -> {
             for (int i = 0; i < Math.min(a.size(), b.size()); i++) {
@@ -23,35 +24,35 @@ class Solution {
                 res[i][j] = result.get(i).get(j);
 
         return res;
+
     }
 
-    private void backtrack(List<Integer> current, List<Integer> even, List<Integer> odd, boolean isEvenTurn, int n) {
-        if (current.size() == n) {
-            result.add(new ArrayList<>(current));
+    public void perm(int n, boolean isEven, List<Integer> odd, List<Integer> even, List<Integer> cur){
+        if(cur.size()==n){
+            result.add(new ArrayList<>(cur));
             return;
         }
 
-        List<Integer> source = isEvenTurn ? even : odd;
+        List<Integer> source = isEven ? even : odd;
 
-        for (int i = 0; i < source.size(); i++) {
-            int val = source.get(i);
-            current.add(val);
+        for(int i=0;i<source.size();i++){
+            int ele = source.get(i);
+            cur.add(ele);
             source.remove(i);
-            backtrack(current, even, odd, !isEvenTurn, n);
-            source.add(i, val);
-            current.remove(current.size() - 1);
+            perm(n, !isEven, odd, even, cur);
+            source.add(i,ele);
+            cur.remove(cur.size()-1);
         }
     }
 
-    private List<Integer> getEvenNumbers(int n) {
-        List<Integer> evens = new ArrayList<>();
-        for (int i = 2; i <= n; i += 2) evens.add(i);
-        return evens;
-    }
-
-    private List<Integer> getOddNumbers(int n) {
-        List<Integer> odds = new ArrayList<>();
-        for (int i = 1; i <= n; i += 2) odds.add(i);
-        return odds;
+    public void helper(int n, List<Integer> odd, List<Integer> even){
+        for(int i=1;i<=n;i++){
+            if(i%2==0){
+                even.add(i);
+            }
+            else{
+                odd.add(i);
+            }
+        }
     }
 }
