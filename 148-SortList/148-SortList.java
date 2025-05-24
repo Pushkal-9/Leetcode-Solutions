@@ -1,4 +1,4 @@
-// Last updated: 18/04/2025, 17:21:57
+// Last updated: 23/05/2025, 19:52:27
 /**
  * Definition for singly-linked list.
  * public class ListNode {
@@ -11,27 +11,63 @@
  */
 class Solution {
     public ListNode sortList(ListNode head) {
-
-        if(head==null){
+        if(head == null || head.next == null){
             return head;
         }
-        List<ListNode> list = new ArrayList<>();
 
-        while(head!=null){
-            list.add(head);
-            head=head.next;
+        ListNode mid = getMid(head);
+        ListNode list1 = sortList(head);
+        ListNode list2 = sortList(mid);
+
+        return merge(list1,list2);
+    }
+
+    public ListNode getMid(ListNode node){
+        ListNode slow = node;
+        ListNode fast = node;
+
+        ListNode prev = new ListNode(-1);
+
+        while(slow!=null && fast!=null && fast.next!=null){
+            prev = slow;
+            slow = slow.next;
+            fast = fast.next.next;
         }
 
-        Collections.sort(list, (a,b) -> a.val-b.val);
+        prev.next = null;
+        return slow;
+    }
 
-        ListNode result = list.get(0);
+    public ListNode merge(ListNode node1, ListNode node2){
+        ListNode dummy = new ListNode(-1);
 
-        for(int i=0;i<list.size()-1;i++){
-            list.get(i).next = list.get(i+1);
+        ListNode cur = dummy;
+
+        while(node1!=null && node2!=null){
+            if(node1.val < node2.val){
+                cur.next = node1;
+                cur = cur.next;
+                node1=node1.next;
+            }
+            else{
+                cur.next = node2;
+                cur = cur.next;
+                node2 = node2.next;
+            }
         }
 
-        list.get(list.size()-1).next=null;
+        while(node1!=null){
+            cur.next = node1;
+            cur = cur.next;
+            node1=node1.next;            
+        }
 
-        return result;
+        while(node2!=null){
+            cur.next = node2;
+            cur = cur.next;
+            node2 = node2.next;            
+        }
+
+        return dummy.next;
     }
 }
