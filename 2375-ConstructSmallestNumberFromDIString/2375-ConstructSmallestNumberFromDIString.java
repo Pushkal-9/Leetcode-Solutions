@@ -1,18 +1,12 @@
-// Last updated: 15/05/2025, 16:23:49
+// Last updated: 24/05/2025, 18:02:32
 class Solution {
     public String smallestNumber(String pattern) {
-
         StringBuilder sb = new StringBuilder();
 
         Stack<Integer> stack = new Stack<>();
 
-        int current = 1;
-
-        for(int i=0;i<=pattern.length();i++){
-
-            stack.push(current);
-            current++;
-
+        for(int i=0; i<=pattern.length(); i++){
+            stack.push(i+1);
             if(i==pattern.length() || pattern.charAt(i)=='I'){
                 while(!stack.isEmpty()){
                     sb.append(stack.pop());
@@ -20,7 +14,6 @@ class Solution {
             }
         }
 
-        return sb.toString();
-
+        return sb.toString();  
     }
 }
