@@ -1,3 +1,4 @@
+// Last updated: 31/05/2025, 19:03:56
 /**
  * Definition for a binary tree node.
  * public class TreeNode {
@@ -15,7 +16,6 @@
  */
 class Solution {
     public TreeNode invertTree(TreeNode root) {
-        
         if(root==null){
             return root;
         }
@@ -23,11 +23,8 @@ class Solution {
         TreeNode left = root.left;
         TreeNode right = root.right;
 
-        root.left = right;
-        root.right = left;
-
-        invertTree(root.left);
-        invertTree(root.right);
+        root.left = invertTree(right);
+        root.right = invertTree(left);
 
         return root;
     }
