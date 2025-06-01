@@ -1,3 +1,4 @@
+// Last updated: 31/05/2025, 19:12:46
 /**
  * Definition for a binary tree node.
  * public class TreeNode {
@@ -14,26 +15,24 @@
  * }
  */
 class Solution {
+    int max = 0;
     public int diameterOfBinaryTree(TreeNode root) {
-        if(root==null){
-            return 0;
-        }
+        depth(root);
 
-        int left = diameterOfBinaryTree(root.left);
-        int right = diameterOfBinaryTree(root.right);
-
-        int max1 = Math.max(left,right);
-
-        int current = height(root.left) + height(root.right);
-
-        return Math.max(current, max1);
+        return max;
     }
 
-    public int height(TreeNode root){
+    public int depth(TreeNode root){
         if(root==null){
             return 0;
         }
 
-        return 1 + Math.max(height(root.left),height(root.right));
+        int left = depth(root.left);
+        int right = depth(root.right);
+
+        max = Math.max(max,left+right);
+
+
+        return 1 + Math.max(left,right);
     }
 }
