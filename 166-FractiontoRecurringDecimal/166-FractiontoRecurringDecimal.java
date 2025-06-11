@@ -1,44 +1,47 @@
-// Last updated: 13/05/2025, 20:08:36
+// Last updated: 11/06/2025, 14:42:49
 class Solution {
-    public String fractionToDecimal(int numerator, int denominator) {
+    public String fractionToDecimal(int num, int den) {
         StringBuilder sb = new StringBuilder();
 
-        long num = (long)numerator;
-        long den = (long)denominator;
+        long numerator = (long)num;
+        long denominator = (long)den;
 
-        if(num * den < 0){
+        if(numerator * denominator < 0){
             sb.append("-");
+            numerator = Math.abs(numerator);
+            denominator = Math.abs(denominator);
         }
-        
-        num = Math.abs(num);
-        den = Math.abs(den);
 
-        sb.append(num/den);
+        long reminder = numerator % denominator;
+        long div = numerator / denominator;
 
-        long rem = num % den;
+        sb.append(div);
 
-        if(rem==0){
+        if(reminder == 0){
             return sb.toString();
         }
 
         sb.append(".");
 
-        HashMap<Long,Integer> map = new HashMap<>();
+        HashMap<Long, Integer> map = new HashMap<>();
+        int index = sb.length();
 
-
-        while(rem!=0 && !map.containsKey(rem)){
-            map.put(rem,sb.length());
-            rem=rem*10;
-            sb.append(rem/den);
-            rem = (rem % den);
-
+        while(reminder!= 0 && !map.containsKey(reminder)){
+            map.put(reminder, index);
+            //System.out.println(reminder + " " + index);
+            index++;
+            reminder = reminder * 10;
+            div = reminder/denominator;
+            reminder = reminder%denominator;
+            sb.append(div);
         }
 
-        if(rem!=0)
-        {
-            sb.insert(map.get(rem),"(");
-            sb.append(")");
-        }
+        if(reminder == 0){
+            return sb.toString();
+        }      
+
+        sb.insert(map.get(reminder),"(");
+        sb.append(')');
 
         return sb.toString();
     }
