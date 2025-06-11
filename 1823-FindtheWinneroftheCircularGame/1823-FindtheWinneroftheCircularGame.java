@@ -1,14 +1,14 @@
-// Last updated: 18/04/2025, 18:30:16
+// Last updated: 11/06/2025, 15:05:48
 class Solution {
-
     public int findTheWinner(int n, int k) {
-        return winnerHelper(n, k) + 1;
+        return helper(n,k) + 1;
     }
 
-    private int winnerHelper(int n, int k) {
-        if (n == 1) {
+    public int helper(int n, int k){
+        if(n==1){
             return 0;
         }
-        return (winnerHelper(n - 1, k) + k) % n;
+
+        return (helper(n-1,k) + k) % n;
     }
 }
