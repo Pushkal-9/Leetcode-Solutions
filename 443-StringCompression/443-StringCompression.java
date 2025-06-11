@@ -1,42 +1,35 @@
-// Last updated: 19/04/2025, 12:14:43
+// Last updated: 11/06/2025, 15:13:52
 class Solution {
     public int compress(char[] chars) {
-        List<String> list = new ArrayList<>();
+        int index = 0;
+        int count = 0;
 
         int pointer = 0;
 
-        int result = 0;
-
-        int i=0;
-
-        int index = 0;
-
-        while(i<chars.length){
-            
-            char ch = chars[i];
-            int count = 0;
-
-            while(i<chars.length && ch==chars[i]){
+        while(index<chars.length){
+            char cur = chars[index];
+            count = 0;
+            while(index<chars.length && cur == chars[index]){
                 count++;
-                i++;
+                index++;
             }
 
-            chars[index] =  ch;
-            index++;
+            chars[pointer] = cur;
+            pointer++;
 
             if(count==1){
                 continue;
             }
-
-            String s = String.valueOf(count);
-
-            for(char c : s.toCharArray()){
-                chars[index] = c;
-                index++;
-            }
             
+            String str = String.valueOf(count);
+
+            for(int i=0;i<str.length();i++){
+
+                chars[pointer] = str.charAt(i);
+                pointer++;
+            }
         }
 
-        return index;
+        return pointer;
     }
 }
