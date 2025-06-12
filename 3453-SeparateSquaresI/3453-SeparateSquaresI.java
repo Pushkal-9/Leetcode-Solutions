@@ -1,19 +1,24 @@
-// Last updated: 12/06/2025, 01:39:51
+// Last updated: 12/06/2025, 01:46:29
 import java.util.Arrays;
 
 class Solution {
+
     public double separateSquares(int[][] squares) {
-        double minY = Double.MAX_VALUE;
-        double maxY = Double.MIN_VALUE;
+        if (squares == null || squares.length == 0) {
+            return 0.0; // or throw an exception, depending on requirements
+        }
+
         double total = 0;
-        
+        double minY = squares[0][1];
+        double maxY = squares[0][1] + squares[0][2];
+
         for (int[] square : squares) {
             double bottom = square[1];
             double side = square[2];
             double top = bottom + side;
+            total += side * side;
             minY = Math.min(minY, bottom);
             maxY = Math.max(maxY, top);
-            total += side * side;
         }
 
         double low = minY;
