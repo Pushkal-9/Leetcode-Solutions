@@ -1,4 +1,4 @@
-// Last updated: 19/04/2025, 18:07:48
+// Last updated: 16/06/2025, 16:34:07
 class Solution {
     public boolean carPooling(int[][] trips, int capacity) {
 
@@ -10,13 +10,7 @@ class Solution {
             events.add(new Event(trips[i][0],trips[i][2],false));
         }
 
-        Collections.sort(events, (a,b) -> {
-            if(a.time!=b.time){
-                return a.time-b.time;
-            }
-
-            return a.isStart.compareTo(b.isStart);
-        });
+        Collections.sort(events);
 
         int current = 0;
 
@@ -45,7 +39,7 @@ class Solution {
     }
 }
 
-class Event{
+class Event implements Comparable<Event>{
     int passengers;
     int time;
     Boolean isStart;
@@ -54,5 +48,14 @@ class Event{
         this.time=time;
         this.isStart=isStart;
         this.passengers = passengers;
+    }
+
+    @Override
+    public int compareTo(Event other) {
+
+        if(this.time!=other.time){
+            return this.time - other.time;
+        }
+        return this.isStart.compareTo(other.isStart);
     }
 }
