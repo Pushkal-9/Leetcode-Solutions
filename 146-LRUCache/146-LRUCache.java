@@ -1,38 +1,91 @@
-// Last updated: 18/05/2025, 13:33:36
+// Last updated: 16/06/2025, 16:07:27
 class LRUCache {
-    private final int capacity;
-    private final Map<Integer, Integer> cache;
+
+    int capacity;
+    int size;
+    Node head, tail;
+    HashMap<Integer, Node> map;
 
     public LRUCache(int capacity) {
         this.capacity = capacity;
-        this.cache = new LinkedHashMap<Integer, Integer>(capacity, 0.75f, true) {
-            public boolean removeEldestEntry(Map.Entry<Integer, Integer> eldest) {
-                return size() > LRUCache.this.capacity;
+        this.size = 0;
+        this.head = new Node(-1,-1);
+        this.tail = new Node(-1,-1);
+        map = new HashMap<>();
+
+        head.next = tail;
+        tail.prev = head;
+
+    }
+
+    public void moveToHead(Node node){
+        removeNode(node);
+        addToHead(node);
+    }
+
+    public void removeNode(Node node){
+        Node prev = node.prev;
+        Node next = node.next;
+
+        prev.next = next;
+        next.prev = prev;
+    }
+
+    public void addToHead(Node node){
+        Node next = head.next;
+
+        head.next = node;
+        node.prev = head;
+
+        node.next = next;
+        next.prev = node;
+    }
+
+    public void removeFromTail(){
+        Node prev = tail.prev;
+        removeNode(prev);
+        map.remove(prev.key);
+    }
+    
+    public int get(int key) {
+        if(!map.containsKey(key)){
+            return -1;
+        }
+
+        Node node = map.get(key);
+
+        moveToHead(node);
+        return node.val;
+    }
+    
+    public void put(int key, int value) {
+        if(!map.containsKey(key)){
+            if(map.size()==capacity){
+                removeFromTail();
             }
-        };
-    }
-    
-    public synchronized int get(int key) {
-        if(this.containsKey(key))
-            return cache.get(key);
-        
-        return -1;
-    }
-    
-    public synchronized void put(int key, int value) {
-        cache.put(key, value);
-    }
+            Node node = new Node(key,value);
+            map.put(key,node);
+            addToHead(node);
+            return;
+        }
 
-    public synchronized boolean containsKey(int key) {
-        return cache.containsKey(key);
+        Node node = map.get(key);
+        node.val = value;
+        moveToHead(node);
     }
+}
 
-    public synchronized void clear() {
-        cache.clear();
-    }
+class Node{
+    int key;
+    int val;
+    Node prev;
+    Node next;
 
-    public synchronized int size() {
-        return cache.size();
+    public Node(int key, int val){
+        this.key = key;
+        this.val = val;
+        this.prev = null;
+        this.next = null;
     }
 }
 
