@@ -1,29 +1,22 @@
-// Last updated: 22/04/2025, 12:08:06
+// Last updated: 18/06/2025, 16:34:07
 class Solution {
     public int shipWithinDays(int[] weights, int days) {
+        int low = max(weights);
 
-        int high = 0;
+        int high = Integer.MAX_VALUE;
 
-        int low = Integer.MIN_VALUE;
-
-        for(int i=0;i<weights.length;i++){
-            low = Math.max(low,weights[i]);
-            high = high + weights[i];
-        }
-
+        System.out.println(low);
 
         while(low<=high){
-            
+
             int mid = (high-low)/2 + low;
 
-            int cal = calculateDays(weights,mid);
+            int cur = calculateDays(weights,mid);
 
-            //System.out.println(cal + " " + mid + " " + low + " " + high);
-
-            if(cal<=days){
-                 high = mid-1;
+            if(cur <= days){
+                high = mid-1;
             }
-            else if (cal>days){
+            else{
                 low = mid+1;
             }
         }
@@ -31,7 +24,17 @@ class Solution {
         return low;
     }
 
-    public int calculateDays(int[] weights, int capacity){
+    public int max(int[] nums){
+        int max =Integer.MIN_VALUE;
+
+        for(int i : nums){
+            max = Math.max(max,i);
+        }
+
+        return max;
+    }
+
+   public int calculateDays(int[] weights, int capacity){
         
         int sum = 0;
 
