@@ -1,4 +1,4 @@
-// Last updated: 19/06/2025, 18:08:22
+// Last updated: 19/06/2025, 18:12:21
 class Solution {
     public int calculate(String s) {
         List<String> list = sanatizeExpression(s);
@@ -8,27 +8,17 @@ class Solution {
         for(int i=0;i<list.size();i++){
             String current = list.get(i);
             if(current.equals("/") || current.equals("*")){
-                String prev = cur.get(cur.size()-1);
-                String next = list.get(i+1);
 
-                Integer first = Integer.parseInt(prev);
-                Integer second = Integer.parseInt(next);
+                Integer first = Integer.parseInt(cur.get(cur.size()-1));
+                Integer second = Integer.parseInt(list.get(++i));
 
-                Integer val;
-
-                if(current.equals("/")){
-                    val = first / second;
-                }
-                else{
-                    val = first * second;
-                }
+                Integer val = current.equals("/") ? first / second : first * second;
 
                 cur.remove(cur.size()-1);
                 cur.add(String.valueOf(val));
-                i++;
             }
             else{
-                cur.add(String.valueOf(current));
+                cur.add(current);
             }
         }
 
@@ -38,27 +28,15 @@ class Solution {
         for(int i=0;i<list.size();i++){
             String current = list.get(i);
             if(current.equals("+") || current.equals("-")){
-                String prev = cur.get(cur.size()-1);
-                String next = list.get(i+1);
-
-                Integer first = Integer.parseInt(prev);
-                Integer second = Integer.parseInt(next);
-
-                Integer val;
-
-                if(current.equals("+")){
-                    val = first + second;
-                }
-                else{
-                    val = first - second;
-                }
+                Integer first = Integer.parseInt(cur.get(cur.size()-1));
+                Integer second = Integer.parseInt(list.get(++i));
+                Integer val = current.equals("+") ? first + second : first - second;
 
                 cur.remove(cur.size()-1);
                 cur.add(String.valueOf(val));
-                i++;
             }
             else{
-                cur.add(String.valueOf(current));
+                cur.add(current);
             }
         }
 
