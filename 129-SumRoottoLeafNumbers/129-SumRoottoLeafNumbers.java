@@ -1,4 +1,4 @@
-// Last updated: 19/06/2025, 18:49:42
+// Last updated: 19/06/2025, 18:50:31
 /**
  * Definition for a binary tree node.
  * public class TreeNode {
@@ -25,13 +25,14 @@ class Solution {
         if(node == null){
             return;
         }
+        current = current*10 + node.val;
 
         if(node.left == null && node.right == null){
-            sum = sum + current*10 + node.val;
+            sum = sum + current;
             return;
         }
 
-        dfs(node.left, current*10 + node.val);
-        dfs(node.right, current*10 + node.val);
+        dfs(node.left, current);
+        dfs(node.right, current);
     }
 }
