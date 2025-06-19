@@ -1,4 +1,4 @@
-// Last updated: 28/03/2025, 19:36:38
+// Last updated: 19/06/2025, 18:41:02
 /**
  * // This is the interface that allows for creating nested lists.
  * // You should not implement it, or speculate about its implementation
@@ -28,27 +28,24 @@
  * }
  */
 class Solution {
-    private int sum = 0;
+    Integer sum = 0;
     public int depthSum(List<NestedInteger> nestedList) {
 
-        for(NestedInteger node : nestedList){
-            dfs(node,1);
+        for(NestedInteger integer : nestedList){
+            dfs(integer,1);
         }
 
         return sum;
     }
 
-    public void dfs(NestedInteger node, int depth){
-        if(node.isInteger()){
-            sum = sum + depth * node.getInteger();
+    public void dfs(NestedInteger nestedInteger, int depth){
+        if(nestedInteger.isInteger()){
+            sum = sum + nestedInteger.getInteger()*depth;
             return;
         }
 
-        List<NestedInteger> list = node.getList();
-
-        for(NestedInteger child : list){
-            dfs(child,depth+1);
+        for(NestedInteger nested : nestedInteger.getList()){
+            dfs(nested,depth+1);
         }
-
     }
 }
