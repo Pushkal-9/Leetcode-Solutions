@@ -1,12 +1,10 @@
-// Last updated: 28/06/2025, 16:21:16
+// Last updated: 28/06/2025, 16:21:56
 class Solution {
     public int[] searchRange(int[] nums, int target) {
-        int startIndex = findStartIndex(nums,target);
-        int endIndex = findEndIndex(nums,target);
-
+        
         int[] res = new int[2];
-        res[0] = startIndex;
-        res[1] = endIndex;
+        res[0] = findStartIndex(nums,target);
+        res[1] = findEndIndex(nums,target);
 
         return res;
     }
