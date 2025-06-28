@@ -1,4 +1,4 @@
-// Last updated: 28/06/2025, 17:12:21
+// Last updated: 28/06/2025, 17:13:16
 /**
  * Definition for singly-linked list.
  * public class ListNode {
@@ -19,9 +19,8 @@ class Solution {
         int carry = 0;
 
         while(l1!=null && l2!=null){
-            sum = carry + l1.val + l2.val;
-            carry = sum/10;
-            sum = sum%10;
+            sum = (l1.val + l2.val + carry)%10;
+            carry = (l1.val + l2.val + carry)/10;
 
             ListNode node = new ListNode(sum);
 
@@ -37,9 +36,10 @@ class Solution {
         }
 
         while(l1 != null){
-            sum = carry + l1.val;
-            carry = sum/10;
-            sum = sum%10;
+            sum = (l1.val + carry)%10;
+            carry = (l1.val + carry)/10;
+
+            System.out.println(carry);
 
             ListNode node = new ListNode(sum);
 
