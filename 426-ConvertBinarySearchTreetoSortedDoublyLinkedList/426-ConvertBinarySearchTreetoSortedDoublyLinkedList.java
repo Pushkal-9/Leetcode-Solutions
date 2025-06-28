@@ -1,4 +1,4 @@
-// Last updated: 28/06/2025, 16:43:01
+// Last updated: 28/06/2025, 16:47:31
 /*
 // Definition for a Node.
 class Node {
@@ -46,9 +46,9 @@ class Solution {
         }
 
         dfs(node.left);
-        Node newNode = new Node(node.val);
-        pointer.right = newNode;
-        newNode.left = pointer;
+        
+        pointer.right = node;
+        node.left = pointer;
         pointer = pointer.right;
 
         dfs(node.right);
