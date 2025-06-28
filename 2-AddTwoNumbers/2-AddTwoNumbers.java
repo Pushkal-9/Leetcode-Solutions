@@ -1,4 +1,4 @@
-// Last updated: 28/06/2025, 17:10:55
+// Last updated: 28/06/2025, 17:12:21
 /**
  * Definition for singly-linked list.
  * public class ListNode {
@@ -11,46 +11,50 @@
  */
 class Solution {
     public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
+        ListNode head = new ListNode(-1);
+
+        ListNode cur = head;
+
+        int sum = 0;
         int carry = 0;
 
-        ListNode dummy = new ListNode(-1);
-        ListNode current = dummy;
         while(l1!=null && l2!=null){
-            int sum = carry + l1.val+l2.val;
+            sum = carry + l1.val + l2.val;
             carry = sum/10;
             sum = sum%10;
+
             ListNode node = new ListNode(sum);
-            current.next = node;
-            current = current.next;
-            l1=l1.next;
-            l2=l2.next;
+
+            cur.next = node;
+
+            cur = cur.next;
+            l1 = l1.next;
+            l2 = l2.next;
         }
 
         if(l2!=null){
-            l1=l2;
+            l1 = l2;
         }
 
-        while(l1!=null){
-            if(carry==0){
-                current.next=l1;
-                return dummy.next;
-            }
-            int sum =carry + l1.val;
-            carry=sum/10;
-            sum=sum%10;
-            ListNode node = new ListNode(sum);
-            current.next = node;
-            current = current.next;
-            l1=l1.next;   
+        while(l1 != null){
+            sum = carry + l1.val;
+            carry = sum/10;
+            sum = sum%10;
 
+            ListNode node = new ListNode(sum);
+
+            cur.next = node;
+            cur = cur.next;  
+
+            l1 = l1.next;  
         }
 
         if(carry!=0){
             ListNode node = new ListNode(carry);
-            current.next = node;
-            current = current.next;
+            cur.next = node;
+            cur = cur.next;            
         }
 
-        return dummy.next;
+        return head.next;
     }
 }
