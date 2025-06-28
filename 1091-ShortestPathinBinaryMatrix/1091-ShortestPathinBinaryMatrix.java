@@ -1,62 +1,60 @@
-// Last updated: 06/04/2025, 17:40:09
+// Last updated: 28/06/2025, 13:15:34
 class Solution {
     public int shortestPathBinaryMatrix(int[][] grid) {
-        int m = grid.length;
-        int n = grid[0].length;
+        Queue<Pair> q = new LinkedList<>();
 
-        if (grid[0][0] != 0 || grid[m - 1][n - 1] != 0) {
+        boolean[][] vis = new boolean[grid.length][grid[0].length];
+
+        if(grid[0][0] == 1){
             return -1;
         }
 
-        boolean[][] vis = new boolean[m][n];
-        Queue<Pair> q = new LinkedList<>();
-
-        q.add(new Pair(0, 0));
+        q.add(new Pair(0,0,1));
         vis[0][0] = true;
 
-        int level = 1;
+        if(grid.length == 0){
+            return 0;
+        }
 
-        int[] row = {0, 0, 1, -1, 1, -1, -1, 1};
-        int[] col = {1, -1, 0, 0, 1, -1, 1, -1};
-
-        while (!q.isEmpty()) {
+        while(!q.isEmpty()){
             int size = q.size();
-            for (int s = 0; s < size; s++) {
+            for(int i=0;i<size;i++){
                 Pair p = q.poll();
-                int r = p.x;
-                int c = p.y;
+                int dist = p.dist;
 
-                if (r == m - 1 && c == n - 1) {
-                    return level;
+                if(p.x == grid.length-1 && p.y == grid[0].length-1){
+                    return dist;
                 }
 
-                for (int i = 0; i < 8; i++) {
-                    int newR = r + row[i];
-                    int newC = c + col[i];
+                int[] r = {0,1,0,-1,1,1,-1,-1};
+                int[] c = {1,0,-1,0,1,-1,1,-1};
 
-                    if (isValid(newR, newC, grid, vis)) {
-                        vis[newR][newC] = true; 
-                        q.add(new Pair(newR, newC));
+                for(int k = 0; k < 8; k++){
+                    if(isSafe(p.x+r[k], p.y + c[k], grid, vis)){
+                        vis[p.x + r[k]][p.y + c[k]] = true;
+                        q.add(new Pair(p.x + r[k], p.y + c[k], dist + 1));
                     }
                 }
             }
-            level++;
+
         }
 
         return -1;
     }
 
-    public boolean isValid(int x, int y, int[][] grid, boolean[][] vis) {
-        return x >= 0 && y >= 0 && x < grid.length && y < grid[0].length &&
-               grid[x][y] == 0 && !vis[x][y];
+    public boolean isSafe(int r, int c, int[][] grid, boolean[][] vis){
+        return r>=0 && c>=0 && r<grid.length && c<grid[0].length && grid[r][c] == 0 && !vis[r][c];
     }
+}
 
-    class Pair {
-        int x, y;
+class Pair{
+    int x;
+    int y;
+    int dist;
 
-        public Pair(int x, int y) {
-            this.x = x;
-            this.y = y;
-        }
+    public Pair(int x, int y, int dist){
+        this.x = x;
+        this.y = y;
+        this.dist = dist;
     }
 }
