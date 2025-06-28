@@ -1,3 +1,4 @@
+// Last updated: 28/06/2025, 16:29:20
 /*
 // Definition for a Node.
 class Node {
@@ -15,33 +16,29 @@ class Node {
 
 class Solution {
     public Node copyRandomList(Node head) {
-        HashMap<Node,Node> map1 = new HashMap<>();
-        HashMap<Node,Node> map2 = new HashMap<>();
+        Map<Node,Node> copyMap = new HashMap<>();
 
-        Node dummy = new Node(-1);
-        Node prev = dummy;
+        Node cur = head;
 
-        Node current = head;
-
-        while(current!=null){
-            Node node = new Node(current.val);
-            dummy.next = node;
-            dummy=dummy.next;
-            map1.put(current,node);
-            current=current.next;
+        while(cur != null){
+            Node node = new Node(cur.val);
+            copyMap.put(cur,node);
+            cur = cur.next;
         }
 
-        for(Node node : map1.keySet()){
-            map2.put(map1.get(node),node);
+        cur = head;
+
+        while(cur != null){
+            Node originalRandom = cur.random;
+            Node copyNode = copyMap.get(cur);
+            Node copyRandom = copyMap.get(originalRandom);
+            copyNode.random = copyRandom;
+            copyNode.next = copyMap.get(cur.next);
+
+            cur = cur.next;
+
         }
 
-        current = prev.next;
-
-        while(current!=null){
-            current.random = map1.get(map2.get(current).random);
-            current=current.next;
-        }
-
-        return prev.next;
+        return copyMap.get(head);
     }
 }
