@@ -1,4 +1,4 @@
-// Last updated: 22/04/2025, 18:44:05
+// Last updated: 29/06/2025, 12:42:21
 /**
  * Definition for a binary tree node.
  * public class TreeNode {
@@ -9,70 +9,70 @@
  * }
  */
 class Solution {
-    List<Integer> result;
     public List<Integer> distanceK(TreeNode root, TreeNode target, int k) {
-       HashMap<Integer, ArrayList<Integer>> adj = new HashMap<>(); 
-       constructAdj(root,adj);
+        Map<TreeNode, List<TreeNode>> adj = new HashMap<>();
+        buildAdj(root,adj,null);
 
-       result = new ArrayList<>();
+        Queue<TreeNode> q = new LinkedList<>();
 
-       Queue<Integer> q = new LinkedList<>();
+        q.add(target);
 
-       q.add(target.val);
+        List<Integer> res = new ArrayList<>();
 
-       int level = -1;
+        int level = 0;
 
-       Set<Integer> vis = new HashSet<>();
-       vis.add(target.val);
+        Set<TreeNode> vis = new HashSet<>();
+        vis.add(target);
 
-       while(!q.isEmpty()){
-        int size = q.size();
-        level++;
-        for(int i=0;i<size;i++){
-            int node = q.poll();
-            if(level==k){
-                result.add(node);
+        while(!q.isEmpty()){
+            int size = q.size();
+
+            if(level == k){
+                while(!q.isEmpty()){
+                    res.add(q.poll().val);
+                }
+                break;
             }
-            for(int next : adj.get(node)){
-                if(!vis.contains(next)){
-                    q.add(next);
-                    vis.add(next);
+
+            for(int i=0;i<size;i++){
+                TreeNode node = q.poll();
+
+                for(TreeNode neigh : adj.get(node)){
+                    if(!vis.contains(neigh)){
+                        q.add(neigh);
+                        vis.add(neigh);
+                    }
                 }
             }
+
+            level++;
         }
 
-       }
-
-       return result;
+        return res;
 
     }
-
-
-    public void constructAdj(TreeNode root, HashMap<Integer, ArrayList<Integer>> adj){
-        if(root==null){
-            return ;
+    public void buildAdj(TreeNode node, Map<TreeNode, List<TreeNode>> map, TreeNode parent){
+        if(node == null){
+            return;
         }
 
-        if(!adj.containsKey(root.val))
-            adj.put(root.val, new ArrayList<>());
-
-        if(root.left!=null){
-            adj.get(root.val).add(root.left.val);
-            if(!adj.containsKey(root.left.val)){
-                adj.put(root.left.val, new ArrayList<>());
-            }
-            adj.get(root.left.val).add(root.val);
+        if(!map.containsKey(node)){
+            map.put(node, new ArrayList<>());
         }
 
-        if(root.right!=null){
-            adj.get(root.val).add(root.right.val);
-            if(!adj.containsKey(root.right.val)){
-                adj.put(root.right.val, new ArrayList<>());
-            }
-            adj.get(root.right.val).add(root.val);
+        if(node.left!=null){
+            map.get(node).add(node.left);
         }
 
-        constructAdj(root.left,adj);
-        constructAdj(root.right,adj);
+        if(node.right!=null){
+            map.get(node).add(node.right);
+        }
+
+        if(parent!=null){
+            map.get(node).add(parent);
+        }
+
+        buildAdj(node.left,map,node);
+        buildAdj(node.right,map,node);
     }
 }
