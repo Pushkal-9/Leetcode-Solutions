@@ -1,29 +1,25 @@
-// Last updated: 22/07/2025, 00:23:50
+// Last updated: 22/07/2025, 00:30:30
+import java.util.Arrays;
+
 class Solution {
     public int triangleNumber(int[] nums) {
         int count = 0;
-
         Arrays.sort(nums);
 
+        for (int k = nums.length - 1; k >= 2; k--) {
+            int i = 0;
+            int j = k - 1;
 
-        for(int i=0;i<nums.length;i++){
-            for(int j=i+1;j<nums.length;j++){
-                for(int k=j+1;k<nums.length;k++){
-                    if(isValid(nums[i], nums[j], nums[k])){
-                        count++;
-                    }
+            while (i < j) {
+                if (nums[i] + nums[j] > nums[k]) {
+                    count += (j - i); // All elements between i and j are valid
+                    j--;
+                } else {
+                    i++;
                 }
             }
         }
 
         return count;
-    }
-
-    public boolean isValid(int x, int y, int z){
-        if(x+y <= z){
-            return false;
-        }
-
-        return true;
     }
 }
